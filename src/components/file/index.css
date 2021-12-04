@@ -1,0 +1,43 @@
+.file{
+	display: flex;
+	align-items: center;
+	border: solid 0.5px #e6e6e6;
+	padding: 1rem 2rem;
+	transition: box-shadow 0.5s;
+	text-decoration: none;
+	margin-bottom: 5px;
+}
+
+.file:hover{
+	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.file h6{
+	font-size: 1rem;
+	margin: 0;
+	font-weight: 200;
+	letter-spacing: 2px;
+	margin: 0 .5rem;
+	color: black;
+}
+
+.file-link{
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+}
+.file-icon{
+	font-size: 1.7rem;
+	color: rgba(69, 69, 235, 0.7);
+}
+
+.delete-icon{
+	margin-left: auto;
+	cursor: pointer;
+	transition: all .5s;
+	color: #bebaba;
+}
+
+.delete-icon:hover{
+	color: rgba(69, 69, 235, 0.7);
+}

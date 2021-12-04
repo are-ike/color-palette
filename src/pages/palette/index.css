@@ -1,0 +1,36 @@
+.header-row{
+	border-bottom: 1px solid #e6e6e6;
+	height: 2rem;
+	padding: .5rem 1rem;
+}
+
+.header-row, .header-row-segment{
+	display: flex;
+	align-items: center;
+}
+
+.header-row-two{
+	justify-content: space-between;
+}
+
+.header-row-segment{
+	margin-right: 8rem;
+	width: 13rem;
+	justify-content: space-around;
+}
+
+.file-open-icon{
+	margin-right: 1rem;
+	font-size: 1.7rem;
+	color: rgba(69, 69, 235, 0.7);
+}
+
+.list-icon{
+	color:  rgba(69, 69, 235, 0.7);
+	font-size: 1.5rem;
+}
+
+.color-blocks{
+	display: flex;
+	height: calc(100vh - 98px);
+}

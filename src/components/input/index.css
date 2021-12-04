@@ -1,0 +1,24 @@
+.file-name-input{
+	font-size: 1.4rem;
+}
+.color-input, .file-name-input{
+	border: none;
+	outline: none;
+	height: 100%;
+	padding: 0 0.6rem;
+	border-radius: 5px;
+}
+
+.color-input:focus, .file-name-input:focus{
+	border: solid 1px #9c9898;
+}
+
+.number-input{
+	width: 2rem;
+	border: solid 1px #9c9898;
+	outline: none;
+	padding: 0.2rem;
+	border-radius: 3px;
+	color: transparent;
+ 	text-shadow: 0 0 0 #000000;
+}
