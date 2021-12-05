@@ -13,14 +13,19 @@ const generateRandomHexColor = () =>
 const Palette = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-	const [file, setFile] = useState({})
+	const [file, setFile] = useState({ 
+		file_id: "", 
+		file_name: "", 
+		colors: []
+	})
+
 	const fileKey = "color-palette-files"
 
 	const getFile = () => {
 		const files = localStorage.getItem(fileKey)
 		if(files){
 			const filesObject = JSON.parse(files)
-			const file = filesObject.find(file =>  file.file_id == id)
+			const file = filesObject.find(file =>  file.file_id === id)
 			return file ? setFile(file) : generateRandomFile()
 		}else{
 			generateRandomFile()
@@ -51,46 +56,50 @@ const Palette = () => {
 		getFile()
 	}
 
-	const onNewPalette = (e) => {
-		if(e.keyCode === 32){
-			const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(file => id != file.file_id)
+	const updateFile = (func, hasCondition, condition) => {
+		const update = () => {
+			const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(file => id !== file.file_id)
 			const updatedFile = { ...file }
-			updatedFile.colors = generateRandomPalette(file.colors?.length)
+			func(updatedFile)
 			fileList.push(updatedFile)
 			localStorage.setItem(fileKey, JSON.stringify(fileList))
 			getFile()
 		}
+
+		return hasCondition ? (condition && update()) : update()
+	}
+
+	const onNewPalette = (e) => {
+		updateFile((updatedFile) => {
+			updatedFile.colors = generateRandomPalette(file.colors?.length)
+		}, true, e.keyCode === 32 && !e.target?.classList?.contains("file-name-input"))
 	}
 
 	const onFileNameChange = fileName => {
-		const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(file => id != file.file_id)
-		const updatedFile = { ...file }
-		updatedFile.file_name = fileName
-		fileList.push(updatedFile)
-		localStorage.setItem(fileKey, JSON.stringify(fileList))
-		getFile()
+		updateFile((updatedFile) => {
+			updatedFile.file_name = fileName
+		})
 	}
 
 	const onColorNumberChange = colorNumber => {
-		const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(file => id != file.file_id)
-		const updatedFile = { ...file }
-		if(colorNumber < file.colors?.length){
-			updatedFile.colors.pop()
-		}else{
-			updatedFile.colors.push(generateRandomHexColor())
-		}
-		fileList.push(updatedFile)
-		localStorage.setItem(fileKey, JSON.stringify(fileList))
-		getFile()
+		updateFile((updatedFile) => {
+			if(colorNumber < file.colors?.length){
+				updatedFile.colors.pop()
+			}else{
+				updatedFile.colors.push(generateRandomHexColor())
+			}
+		})
 	}
 
+	 /* eslint-disable */ 
 	useEffect(() => {
 		if(!validate(id)){
 			return navigate('/files')
 		}
 		getFile()
 	}, [])
-
+	
+	 /* eslint-enable */ 
 	useEffect(() => {
 		document.addEventListener("keyup", onNewPalette)
 		return () => {
