@@ -9,7 +9,7 @@ const Input = ({isColorInput = false, value, setValue, type, ...props }) => {
 			}
 		}else{
 			if(isColorInput){
-				setValue(`#${value}`)
+				value[0] === "#" ? setValue(`${value}`) : setValue(`#${value}`)
 			}else{
 				setValue(value)
 			}

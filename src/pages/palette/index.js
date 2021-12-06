@@ -70,25 +70,34 @@ const Palette = () => {
 	}
 
 	const onNewPalette = (e) => {
-		updateFile((updatedFile) => {
-			updatedFile.colors = generateRandomPalette(file.colors?.length)
-		}, true, e.keyCode === 32 && !e.target?.classList?.contains("file-name-input"))
+		updateFile( newFile => {
+			newFile.colors = generateRandomPalette(file.colors?.length)
+		}, true, e.keyCode === 32 && !e.target?.classList?.contains("file-name-input") 
+		&& !e.target?.classList?.contains("color-input") 
+		&& !e.target?.classList?.contains("number-input"))
 	}
 
 	const onFileNameChange = fileName => {
-		updateFile((updatedFile) => {
-			updatedFile.file_name = fileName
+		updateFile( newFile => {
+			newFile.file_name = fileName
 		})
 	}
 
-	const onColorNumberChange = colorNumber => {
-		updateFile((updatedFile) => {
+	const onColorBlockNumberChange = colorNumber => {
+		updateFile( newFile => {
 			if(colorNumber < file.colors?.length){
-				updatedFile.colors.pop()
+				newFile.colors.pop()
 			}else{
-				updatedFile.colors.push(generateRandomHexColor())
+				newFile.colors.push(generateRandomHexColor())
 			}
 		})
+	}
+
+	const onColorInputChange = ({idx, newColor}) => {
+		updateFile( newFile => {
+			newFile.colors[idx] = newColor
+		})
+		document.querySelectorAll('.color-input')[idx].focus()
 	}
 
 	 /* eslint-disable */ 
@@ -98,7 +107,7 @@ const Palette = () => {
 		}
 		getFile()
 	}, [])
-	
+
 	 /* eslint-enable */ 
 	useEffect(() => {
 		document.addEventListener("keyup", onNewPalette)
@@ -116,15 +125,21 @@ const Palette = () => {
 				<div className="header-row header-row-two">
 					<p>Press the spacebar to generate a random palette!</p>
 					<div className="header-row-segment">
-						<Input type="number" min={1} max={6} value={file.colors?.length} setValue={onColorNumberChange}/>
+						<Input type="number" min={1} max={6} value={file.colors?.length} setValue={onColorBlockNumberChange}/>
 						<Link to="/files">
 							<FontAwesomeIcon icon={faListUl} className="list-icon" title="Back to list"/>
 						</Link>
 					</div>
-				</div>
+				</div>		
 			</header>
 			<main className="color-blocks">
-				{file.colors?.map((color, idx) => (<ColorBlock color={color} key={`${idx}-${color}`}/>))}
+				{file.colors?.map((color, idx) => (
+					<ColorBlock 
+						idx={idx}
+						color={color} 
+						onColorInputChange={onColorInputChange}
+						key={`${idx}-${color}`}
+					/>))}
 			</main>
 		</div>
 	)
