@@ -1,16 +1,31 @@
 .file-name-input{
 	font-size: 1.4rem;
 }
+
 .color-input, .file-name-input{
 	border: none;
 	outline: none;
 	height: 100%;
 	padding: 0 0.6rem;
 	border-radius: 5px;
+	background-color: transparent;
 }
 
-.color-input:focus, .file-name-input:focus{
+.file-name-input:focus{
 	border: solid 1px #9c9898;
+}
+
+.color-input{
+	font-size: 1.2rem;
+	width: 100%;
+	font-family: inherit;
+	font-weight: 900;
+	cursor: pointer;
+	text-transform: uppercase	;
+}
+
+.color-input:focus{
+	cursor: default;
 }
 
 .number-input{

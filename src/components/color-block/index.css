@@ -1,9 +1,49 @@
-.color-block{
-	width: 100%;
-	height: 100%;
+.color-block {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.input-container{
-	width: 100px;
-	height: 100px;
+.color-block .controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: auto 0;
+}
+
+.color-block:hover .controls .copy,
+.color-block:hover .controls .cancel,
+.color-block:hover .controls .lock {
+  opacity: 1;
+}
+
+.controls .copy,
+.controls .cancel,
+.controls .lock {
+  opacity: 0;
+}
+
+.color-block .icon {
+  color: rgba(0, 0, 0, 0.3);
+  transition: color 0.4s;
+  cursor: pointer;
+}
+
+.color-block .icon:hover,
+.color-block .controls .locked {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.lock.locked {
+  opacity: 1;
+}
+
+.input-container {
+  width: 100px;
+  margin-top: auto;
+  margin-bottom: 7rem;
 }

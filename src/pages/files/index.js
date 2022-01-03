@@ -9,7 +9,7 @@ const ListOfFiles = () => {
 	
 	const getFiles = () => {
 		const files = localStorage.getItem(fileKey)
-		files ? setFiles(JSON.parse(files)) : localStorage.setItem(fileKey, [])
+		files ? setFiles(JSON.parse(files)) : localStorage.setItem(fileKey, JSON.stringify([]))
 	}
 
 	const deleteFile = id => {

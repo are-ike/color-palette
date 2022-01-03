@@ -18,6 +18,7 @@ const Palette = () => {
 		file_name: "", 
 		colors: []
 	})
+	const [lockedColorBlocks, setLockedColorBlocks] = useState([])
 
 	const fileKey = "color-palette-files"
 
@@ -34,9 +35,13 @@ const Palette = () => {
 	
 	const generateRandomPalette = (count) => {
 		const colors = []
-		
+
 		for(let i = 0; i < count; i++){
-			colors.push(generateRandomHexColor())
+			if(!lockedColorBlocks?.includes(i)){
+				colors.push(generateRandomHexColor())
+			}else{
+				colors.push(file.colors[i])
+			}
 		}
 
 		return colors
@@ -97,7 +102,12 @@ const Palette = () => {
 		updateFile( newFile => {
 			newFile.colors[idx] = newColor
 		})
-		document.querySelectorAll('.color-input')[idx].focus()
+	}
+
+	const onColorBlockDelete = idx => {
+		updateFile( newFile => {
+			newFile.colors?.splice(idx, 1)
+		})
 	}
 
 	 /* eslint-disable */ 
@@ -135,10 +145,13 @@ const Palette = () => {
 			<main className="color-blocks">
 				{file.colors?.map((color, idx) => (
 					<ColorBlock 
+						key={`${idx}_${color}`}
 						idx={idx}
 						color={color} 
 						onColorInputChange={onColorInputChange}
-						key={`${idx}-${color}`}
+						lockedColorBlocks={lockedColorBlocks}
+						setLockedColorBlocks={setLockedColorBlocks}
+						onColorBlockDelete={onColorBlockDelete}
 					/>))}
 			</main>
 		</div>
