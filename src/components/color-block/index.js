@@ -1,8 +1,9 @@
-import './index.css'
 import Input from '../input/index'
 import { faTimes, faLock, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import fontColorContrast from 'font-color-contrast'
 import { useState } from 'react'
+import './index.css'
 
 
 const ColorBlock = 
@@ -15,6 +16,7 @@ const ColorBlock =
 	}) => {
 	const [currentColor, setCurrentColor] = useState(color.hex)
 	const { id } = color
+	const fontColor = fontColorContrast(color.hex)
 
 	const handleColorChange = newColor => {
 		setCurrentColor(newColor)
@@ -43,10 +45,10 @@ const ColorBlock =
 				<FontAwesomeIcon icon={faLock} className={!lockedColorBlocks.includes(idx) ? "icon lock" : "icon lock locked"} onClick={handleLock}/>
 			</div>
 			<div className="input-container">
-				<Input isColorInput value={currentColor} setValue={handleColorChange}/>
+				<Input isColorInput value={currentColor} setValue={handleColorChange} style={{color: fontColor}}/>
 			</div>
 			<div className="color-name">
-				<p>{color.name}</p>
+				<p style={{color: fontColor}}>{color.name}</p>
 			</div>
 		</div>
 	)
