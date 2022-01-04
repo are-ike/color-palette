@@ -4,7 +4,8 @@ import Input from '../../components/input/index'
 import ColorBlock from '../../components/color-block/index'
 import { faFolderOpen, faListUl } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { validate } from 'uuid'
+import { validate, v4 as uuidv4 } from 'uuid'
+import getColorInformation from '../../api/colors'
 import './index.css'
 
 const generateRandomHexColor = () => 
@@ -33,23 +34,32 @@ const Palette = () => {
 		}
 	}
 	
-	const generateRandomPalette = (count) => {
+	const generateRandomPalette = async (count) => {
 		const colors = []
 
 		for(let i = 0; i < count; i++){
-			if(!lockedColorBlocks?.includes(i)){
-				colors.push(generateRandomHexColor())
+			if(!file.colors.length || !file.colors[i]?.locked){
+				
+				const me = generateRandomHexColor()
+				const colorObject = await 
+				getColorInformation({
+					id: uuidv4(),
+					hex: me,
+					locked: false
+				})
+
+				colors.push(colorObject)
 			}else{
 				colors.push(file.colors[i])
 			}
 		}
-
+		
 		return colors
 	}
 
-	function generateRandomFile(){
+	async function generateRandomFile(){
 		const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? []
-		const colors = generateRandomPalette(6)
+		const colors = await generateRandomPalette(6)
 		
 		fileList.push({ 
 			file_id: id, 
@@ -98,9 +108,10 @@ const Palette = () => {
 		})
 	}
 
-	const onColorInputChange = ({idx, newColor}) => {
+	const onColorInputChange = ({id, newColor}) => {
 		updateFile( newFile => {
-			newFile.colors[idx] = newColor
+			const color = newFile.colors.find(color => color.id === id)
+			if(color) color.hex = newColor
 		})
 	}
 
@@ -145,8 +156,7 @@ const Palette = () => {
 			<main className="color-blocks">
 				{file.colors?.map((color, idx) => (
 					<ColorBlock 
-						key={`${idx}_${color}`}
-						idx={idx}
+						key={color.id}
 						color={color} 
 						onColorInputChange={onColorInputChange}
 						lockedColorBlocks={lockedColorBlocks}
@@ -159,3 +169,12 @@ const Palette = () => {
 }
 
 export default Palette
+
+
+	// colors: [
+	// 	{
+	// 		locked: false,
+	// 		hexCode: "#000000",
+	// 		name: ""
+	// 	}
+	// ]

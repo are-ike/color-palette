@@ -45,5 +45,9 @@
 .input-container {
   width: 100px;
   margin-top: auto;
-  margin-bottom: 7rem;
+  margin-bottom: 2rem;
+}
+
+.color-name{
+  margin-bottom: 5rem;
 }

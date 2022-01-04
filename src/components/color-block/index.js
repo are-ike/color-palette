@@ -13,12 +13,14 @@ const ColorBlock =
 		setLockedColorBlocks,
 		onColorBlockDelete
 	}) => {
-	const [currentColor, setCurrentColor] = useState(color)
+	const [currentColor, setCurrentColor] = useState(color.hex)
+	const { id } = color
 
 	const handleColorChange = newColor => {
 		setCurrentColor(newColor)
 		if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColor)){
-			onColorInputChange({idx, newColor})
+
+			onColorInputChange({id, newColor})
 		}
 	}
 
@@ -34,7 +36,7 @@ const ColorBlock =
 	}
 
 	return(
-		<div style={{backgroundColor: `${color}`}} className="color-block">
+		<div style={{backgroundColor: `${color.hex}`}} className="color-block">
 			<div className="controls">
 				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(idx)}/>
 				<FontAwesomeIcon icon={faCopy} className="icon copy" onClick={handleCopy}/>
@@ -42,6 +44,9 @@ const ColorBlock =
 			</div>
 			<div className="input-container">
 				<Input isColorInput value={currentColor} setValue={handleColorChange}/>
+			</div>
+			<div className="color-name">
+				<p>{color.name}</p>
 			</div>
 		</div>
 	)
