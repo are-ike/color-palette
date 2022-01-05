@@ -8,8 +8,14 @@ import { validate, v4 as uuidv4 } from 'uuid'
 import getColorInformation from '../../api/colors'
 import './index.css'
 
-const generateRandomHexColor = () => 
-`#${Math.floor( Math.random() * 16777215 ).toString(16)}`
+const generateRandomHexColor = () => {
+	let hex = '#'
+	for(let i = 0; i < 6; i++){
+		hex += Math.floor( Math.random() * 15 ).toString(16)
+	}
+	return hex
+}
+
 
 const Palette = () => {
 	const { id } = useParams()
@@ -185,11 +191,3 @@ const Palette = () => {
 
 export default Palette
 
-
-	// colors: [
-	// 	{
-	// 		locked: false,
-	// 		hexCode: "#000000",
-	// 		name: ""
-	// 	}
-	// ]
