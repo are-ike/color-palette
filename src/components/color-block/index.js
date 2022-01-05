@@ -10,9 +10,8 @@ const ColorBlock =
 	({	idx, 
 		color, 
 		onColorInputChange, 
-		lockedColorBlocks, 
-		setLockedColorBlocks,
-		onColorBlockDelete
+		onColorBlockDelete,
+		onColorBlockLock,
 	}) => {
 	const [currentColor, setCurrentColor] = useState(color.hex)
 	const { id } = color
@@ -21,15 +20,8 @@ const ColorBlock =
 	const handleColorChange = newColor => {
 		setCurrentColor(newColor)
 		if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColor)){
-
 			onColorInputChange({id, newColor})
 		}
-	}
-
-	const handleLock = () => {
-		const curBlocks = lockedColorBlocks.slice()
-		curBlocks.push(idx)
-		setLockedColorBlocks(curBlocks)
 	}
 
 	const handleCopy = () => {
@@ -40,9 +32,9 @@ const ColorBlock =
 	return(
 		<div style={{backgroundColor: `${color.hex}`}} className="color-block">
 			<div className="controls">
-				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(idx)}/>
+				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
 				<FontAwesomeIcon icon={faCopy} className="icon copy" onClick={handleCopy}/>
-				<FontAwesomeIcon icon={faLock} className={!lockedColorBlocks.includes(idx) ? "icon lock" : "icon lock locked"} onClick={handleLock}/>
+				<FontAwesomeIcon icon={faLock} className={!color.locked ? "icon lock" : "icon lock locked"} onClick={() => onColorBlockLock(id, !color.locked)}/>
 			</div>
 			<div className="input-container">
 				<Input isColorInput value={currentColor} setValue={handleColorChange} style={{color: fontColor}}/>

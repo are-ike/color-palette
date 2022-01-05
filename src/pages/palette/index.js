@@ -19,7 +19,6 @@ const Palette = () => {
 		file_name: "", 
 		colors: []
 	})
-	const [lockedColorBlocks, setLockedColorBlocks] = useState([])
 
 	const fileKey = "color-palette-files"
 
@@ -34,20 +33,23 @@ const Palette = () => {
 		}
 	}
 	
+	const handleColorCreationAndUpdate = async (currentColor) => {
+		const color = !currentColor ? {
+			id: uuidv4(),
+			hex: generateRandomHexColor(),
+			locked: false
+		} : currentColor
+
+		const colorObject = await getColorInformation(color)
+		return colorObject
+	}
+
 	const generateRandomPalette = async (count) => {
 		const colors = []
 
 		for(let i = 0; i < count; i++){
 			if(!file.colors.length || !file.colors[i]?.locked){
-				
-				const me = generateRandomHexColor()
-				const colorObject = await 
-				getColorInformation({
-					id: uuidv4(),
-					hex: me,
-					locked: false
-				})
-
+				const colorObject = await handleColorCreationAndUpdate()
 				colors.push(colorObject)
 			}else{
 				colors.push(file.colors[i])
@@ -72,21 +74,22 @@ const Palette = () => {
 	}
 
 	const updateFile = (func, hasCondition, condition) => {
-		const update = () => {
+		const update = async () => {
 			const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(file => id !== file.file_id)
 			const updatedFile = { ...file }
-			func(updatedFile)
+			await func(updatedFile)
 			fileList.push(updatedFile)
 			localStorage.setItem(fileKey, JSON.stringify(fileList))
 			getFile()
 		}
 
-		return hasCondition ? (condition && update()) : update()
+		hasCondition ? (condition && update()) : update()
 	}
 
 	const onNewPalette = (e) => {
-		updateFile( newFile => {
-			newFile.colors = generateRandomPalette(file.colors?.length)
+		updateFile( async (newFile) => {
+			const colors = await generateRandomPalette(file.colors?.length)
+			newFile.colors = [...colors]
 		}, true, e.keyCode === 32 && !e.target?.classList?.contains("file-name-input") 
 		&& !e.target?.classList?.contains("color-input") 
 		&& !e.target?.classList?.contains("number-input"))
@@ -99,25 +102,38 @@ const Palette = () => {
 	}
 
 	const onColorBlockNumberChange = colorNumber => {
-		updateFile( newFile => {
+		updateFile( async (newFile) => {
 			if(colorNumber < file.colors?.length){
 				newFile.colors.pop()
 			}else{
-				newFile.colors.push(generateRandomHexColor())
+				const colorObject = await handleColorCreationAndUpdate()
+				newFile.colors.push(colorObject)
 			}
 		})
 	}
 
 	const onColorInputChange = ({id, newColor}) => {
-		updateFile( newFile => {
-			const color = newFile.colors.find(color => color.id === id)
-			if(color) color.hex = newColor
+		updateFile( async (newFile) => {
+			const colorIdx = newFile.colors.findIndex(color => color.id === id)
+			if(colorIdx){
+				newFile.colors[colorIdx].hex = newColor
+				const colorObject = await handleColorCreationAndUpdate(newFile.colors[colorIdx])
+				newFile.colors[colorIdx] = { ...colorObject }
+			} 
 		})
 	}
 
-	const onColorBlockDelete = idx => {
+	const onColorBlockDelete = id => {
 		updateFile( newFile => {
+			const idx = newFile.colors?.findIndex(color => color.id === id)
 			newFile.colors?.splice(idx, 1)
+		})
+	}
+
+	const onColorBlockLock = (id, lockState) => {
+		updateFile( newFile => {
+			const color = newFile.colors.find(color => color.id === id)
+			if(color) color.locked = lockState
 		})
 	}
 
@@ -159,9 +175,8 @@ const Palette = () => {
 						key={color.id}
 						color={color} 
 						onColorInputChange={onColorInputChange}
-						lockedColorBlocks={lockedColorBlocks}
-						setLockedColorBlocks={setLockedColorBlocks}
 						onColorBlockDelete={onColorBlockDelete}
+						onColorBlockLock={onColorBlockLock}
 					/>))}
 			</main>
 		</div>
