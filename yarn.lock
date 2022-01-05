@@ -9022,11 +9022,6 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
-react-bootstrap-accordion@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-bootstrap-accordion/-/react-bootstrap-accordion-1.0.0.tgz#450ae216879dad9377479bb41e06b0d2eb8cb343"
-  integrity sha512-M5EDHXRLCjooKdLGMpTzsRS60+vE7g/Ass41zSy2IrlcgKrc0OkzaQRP7pM/8D8vfdGPE1A36JgWQCV2KjPdYA==
-
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"

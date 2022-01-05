@@ -1,4 +1,4 @@
-import { Accordion } from 'react-bootstrap-accordion'
+import Accordion from '../accordion/index'
 import './index.css'
 
 const ColorFormats = ({color}) => {
