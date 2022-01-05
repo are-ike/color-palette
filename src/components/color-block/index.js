@@ -2,12 +2,15 @@ import Input from '../input/index'
 import { faTimes, faLock, faCopy, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fontColorContrast from 'font-color-contrast'
+import ColorFormats from '../color-formats/index'
 import { useState } from 'react'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 
 const ColorBlock = 
-	({	idx, 
+	({
 		color, 
 		onColorInputChange, 
 		onColorBlockDelete,
@@ -25,8 +28,14 @@ const ColorBlock =
 	}
 
 	const handleCopy = () => {
-		navigator.clipboard.writeText(currentColor);
+		//navigator.clipboard.writeText(currentColor);
 		//alert('Copied')
+		toast(<ColorFormats color={color} />, 
+			{
+				position: toast.POSITION.TOP_CENTER,
+				autoClose: false,
+				closeOnClick: false
+			})
 	}
 
 	return(
