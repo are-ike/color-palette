@@ -33,9 +33,9 @@ const Palette = () => {
 		if(files){
 			const filesObject = JSON.parse(files)
 			const file = filesObject.find(file =>  file.file_id === id)
-			return file ? setFile(file) : generateRandomFile()
+			return file ? setFile(file) : validate(id) ? generateNewFile() : navigate("*")
 		}else{
-			generateRandomFile()
+			navigate("*")
 		}
 	}
 	
@@ -65,7 +65,7 @@ const Palette = () => {
 		return colors
 	}
 
-	async function generateRandomFile(){
+	async function generateNewFile(){
 		const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? []
 		const colors = await generateRandomPalette(6)
 		
@@ -145,9 +145,6 @@ const Palette = () => {
 
 	 /* eslint-disable */ 
 	useEffect(() => {
-		if(!validate(id)){
-			return navigate('/files')
-		}
 		getFile()
 	}, [])
 
