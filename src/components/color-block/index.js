@@ -1,5 +1,5 @@
 import Input from '../input/index'
-import { faTimes, faLock, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faLock, faCopy, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fontColorContrast from 'font-color-contrast'
 import { useState } from 'react'
@@ -34,7 +34,7 @@ const ColorBlock =
 			<div className="controls">
 				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
 				<FontAwesomeIcon icon={faCopy} className="icon copy" onClick={handleCopy}/>
-				<FontAwesomeIcon icon={faLock} className={!color.locked ? "icon lock" : "icon lock locked"} onClick={() => onColorBlockLock(id, !color.locked)}/>
+				<FontAwesomeIcon icon={!color.locked ? faUnlock : faLock } className={!color.locked ? "icon lock" : "icon lock locked"} onClick={() => onColorBlockLock(id, !color.locked)}/>
 			</div>
 			<div className="input-container">
 				<Input isColorInput value={currentColor} setValue={handleColorChange} style={{color: fontColor}}/>

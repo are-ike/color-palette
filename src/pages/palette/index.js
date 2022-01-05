@@ -131,8 +131,12 @@ const Palette = () => {
 
 	const onColorBlockDelete = id => {
 		updateFile( newFile => {
-			const idx = newFile.colors?.findIndex(color => color.id === id)
-			newFile.colors?.splice(idx, 1)
+			if(newFile.colors.length > 1){
+				const idx = newFile.colors?.findIndex(color => color.id === id)
+				newFile.colors?.splice(idx, 1)
+			}else{
+				alert("can't delete last block")
+			}
 		})
 	}
 
