@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import File from '../../components/file/index'
-import NewPaletteButton from '../../components/new-btn/index'
+import NewPaletteButton from '../../components/new-file-btn/index'
 import './index.css'
 
 const ListOfFiles = () => {
