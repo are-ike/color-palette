@@ -1,54 +1,37 @@
 .accordion{
 	position: relative;
+	font-family: inherit;
 }
 
 .title{
 	padding: .2rem 0;
 	height: 3.12rem;
 	border-bottom: 1px solid #e6e6e6;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.title:hover{
+	font-size: 1.05rem;
+	font-weight: 500;
+}
+
+.icon{
+	font-size: 1rem;
+	color: #d4d3d3;
 }
 
 .content{
-	/* position: absolute; */
-	
 	height: 0;
-	
+	overflow: hidden;
+	transition: .5s;
 }
 
-.hide{
-	/* display: none; */
-	/* position: absolute; */
-	
 
-	animation: hide 1s ease-in;
+.content.show{
+	height: 3.12rem;
+	color: black;
 }
 
-.show{
-	/* display: block;
-	position: static; */
-
-
-	animation: show 1s ease-in;
-}
-
-@keyframes show {
-	0%{
-		height: 0;
-	}
-
-	100%{
-		height: 3.12rem;
-		display: block;
-	}
-}
-
-@keyframes hide {
-	0%{
-		height: 3.12rem;	
-	}
-
-	100% {
-		height: 0;	
-		display: none;
-	}
-}

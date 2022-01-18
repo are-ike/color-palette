@@ -1,32 +1,21 @@
 import Accordion from '../accordion/index'
+import AccordionColorContent from '../accordion-color-content/index'
 import './index.css'
 
 const ColorFormats = ({color}) => {
-
 	return (
 		<div>
-			<Accordion title="HEX" className="title">
-				<div>
-					<p>{color.hex}</p>
-					<button>hi</button>
-				</div>
+			<Accordion title="HEX">
+				<AccordionColorContent color={color.hex}/>
 			</Accordion>
 			<Accordion title="RGB">
-				<div>
-					<p>{color.rgb}</p>
-				</div>
+				<AccordionColorContent color={color.rgb}/>
 			</Accordion>
 			<Accordion title="HSL">
-				<div>
-					<p>{color.hsl}</p>
-				</div>
+				<AccordionColorContent color={color.hsl}/>
 			</Accordion>
 			<Accordion title="HSV">
-				<div>
-					<p>{color.hsv}</p>
-					
-					<button>hi</button>
-				</div>
+				<AccordionColorContent color={color.hsv}/>
 			</Accordion>
 		</div>
 

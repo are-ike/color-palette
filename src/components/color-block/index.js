@@ -28,13 +28,15 @@ const ColorBlock =
 	}
 
 	const handleCopy = () => {
-		//navigator.clipboard.writeText(currentColor);
-		//alert('Copied')
-		toast(<ColorFormats color={color} />, 
+		toast(<ColorFormats color={color}/>, 
 			{
-				position: toast.POSITION.TOP_CENTER,
+				toastId: "color-formats",
+				position: toast.POSITION.BOTTOM_CENTER,
 				autoClose: false,
-				closeOnClick: false
+				closeOnClick: false,
+				style: {
+					cursor: "default"
+				}
 			})
 	}
 
