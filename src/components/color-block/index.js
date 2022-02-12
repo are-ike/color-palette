@@ -3,7 +3,7 @@ import { faTimes, faLock, faCopy, faUnlock } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fontColorContrast from 'font-color-contrast'
 import ColorFormats from '../color-formats/index'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { cls } from '../../util/functions'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,18 +17,22 @@ const ColorBlock =
 		onColorBlockDelete,
 		onColorBlockLock,
 	}) => {
-	const [currentColor, setCurrentColor] = useState(color.hex)
+	const [currentColor, setCurrentColor] = useState(color.hex?.slice(1,))
 	const [isLoading, setIsLoading] = useState(false)
 	const { id } = color
 	const fontColor = fontColorContrast(color.hex)
+	const iconColor = fontColorContrast(color.hex)
+
+	useEffect(() => {
+		setIsLoading(false)
+	}, [color])
 
 	const handleColorChange = newColor => {
 		setCurrentColor(newColor)
-		if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColor)){
+		const newColorHex = `#${newColor}`
+		if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex)){
 			setIsLoading(true)
-			onColorInputChange({id, newColor})
-			setIsLoading(false)
-			
+			onColorInputChange({id, newColor: newColorHex})
 		}
 	}
 
@@ -48,9 +52,9 @@ const ColorBlock =
 	return(
 		<div style={{backgroundColor: `${color.hex}`}} className={cls("color-block", isLoading ? "loading" : null)}>
 			<div className="controls">
-				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
-				<FontAwesomeIcon icon={faCopy} className="icon copy" onClick={handleCopy}/>
-				<FontAwesomeIcon icon={!color.locked ? faUnlock : faLock } className={!color.locked ? "icon lock" : "icon lock locked"} onClick={() => onColorBlockLock(id, !color.locked)}/>
+				<FontAwesomeIcon style={{color: iconColor}} icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
+				<FontAwesomeIcon style={{color: iconColor}} icon={faCopy} className="icon copy" onClick={handleCopy}/>
+				<FontAwesomeIcon style={{color: iconColor}} icon={!color.locked ? faUnlock : faLock } className={!color.locked ? "icon lock" : "icon lock locked"} onClick={() => onColorBlockLock(id, !color.locked)}/>
 			</div>
 			<div className="input-container">
 				<Input isColorInput value={currentColor} setValue={handleColorChange} style={{color: fontColor}}/>

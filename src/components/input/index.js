@@ -4,15 +4,15 @@ const Input = ({isColorInput = false, value, setValue, type, ...props }) => {
 
 	const onValueChange = value => {
 		if(type === "number"){
-			if(value < 7 && value > 0){
-				return setValue(value)
+			if(value > 0 && value < 7){
+				setValue(value)
+			}else if(value < 1){
+				alert('no')
+			}else if(value > 6){
+				alert('max limit')
 			}
 		}else{
-			if(isColorInput){
-				value[0] === "#" ? setValue(`${value}`) : setValue(`#${value}`)
-			}else{
-				setValue(value)
-			}
+			setValue(value)
 		}
 		return
 	}
@@ -21,7 +21,7 @@ const Input = ({isColorInput = false, value, setValue, type, ...props }) => {
 		<input
 			value={value}
 			onChange={e => onValueChange(e.target.value)}
-			maxLength={isColorInput ? 7 : null}
+			maxLength={isColorInput ? 6 : null}
 			className={type !== "number" ? (isColorInput ? "color-input" : "file-name-input") : "number-input"}
 			type={type}
 			{...props}

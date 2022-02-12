@@ -21,11 +21,6 @@
 	color: black;
 }
 
-.file-link{
-	text-decoration: none;
-	display: flex;
-	align-items: center;
-}
 .file-icon{
 	font-size: 1.7rem;
 	color: rgba(69, 69, 235, 0.7);

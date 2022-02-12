@@ -16,10 +16,10 @@
 }
 
 .color-input{
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	width: 100%;
 	font-family: inherit;
-	font-weight: 900;
+	font-weight: 500;
 	cursor: pointer;
 	text-transform: uppercase	;
 }

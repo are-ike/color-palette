@@ -6,13 +6,12 @@ import './index.css'
 const File = ({id, fileName, onDelete }) => {
 
 	return(
-		<div className="file" >
-			<Link to={`/palette/${id}`} className="file-link">
-				<FontAwesomeIcon icon={faFolder} className="file-icon"/>
-				<h6>{fileName}</h6>
-			</Link>
+		<Link to={`/palette/${id}`} className="file">
+			<FontAwesomeIcon icon={faFolder} className="file-icon"/>
+			<h6>{fileName}</h6>
 			<FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={onDelete} title="delete palette"/>
-		</div>
+		</Link>
+
 	)
 }
 

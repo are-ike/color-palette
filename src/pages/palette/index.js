@@ -7,14 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate, v4 as uuidv4 } from 'uuid'
 import getColorInformation from '../../api/colors'
 import './index.css'
+import { generateRandomHexColor } from '../../util/functions'
 
-const generateRandomHexColor = () => {
-	let hex = '#'
-	for(let i = 0; i < 6; i++){
-		hex += Math.floor( Math.random() * 15 ).toString(16)
-	}
-	return hex
-}
 
 
 const Palette = () => {
@@ -33,7 +27,7 @@ const Palette = () => {
 		if(files){
 			const filesObject = JSON.parse(files)
 			const file = filesObject.find(file =>  file.file_id === id)
-			return file ? setFile(file) : validate(id) ? generateNewFile() : navigate("*")
+			return file ? setFile(file) : navigate("*")
 		}else{
 			navigate("*")
 		}
@@ -109,7 +103,7 @@ const Palette = () => {
 
 	const onColorBlockNumberChange = colorNumber => {
 		updateFile( async (newFile) => {
-			if(colorNumber < file.colors?.length){
+			if(colorNumber < newFile.colors?.length){
 				newFile.colors.pop()
 			}else{
 				const colorObject = await handleColorCreationAndUpdate()
@@ -169,7 +163,7 @@ const Palette = () => {
 				<div className="header-row header-row-two">
 					<p>Press the spacebar to generate a random palette!</p>
 					<div className="header-row-segment">
-						<Input type="number" min={1} max={6} value={file.colors?.length} setValue={onColorBlockNumberChange}/>
+						<Input type="number" value={file.colors?.length} setValue={onColorBlockNumberChange}/>
 						<Link to="/files">
 							<FontAwesomeIcon icon={faListUl} className="list-icon" title="Back to list"/>
 						</Link>

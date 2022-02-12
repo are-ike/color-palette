@@ -19,7 +19,7 @@
 .color-block:hover .controls .copy,
 .color-block:hover .controls .cancel,
 .color-block:hover .controls .lock {
-  opacity: 1;
+  opacity: 0.3;
 }
 
 .controls .copy,
@@ -29,18 +29,13 @@
 }
 
 .color-block .icon {
-  color: rgba(0, 0, 0, 0.3);
   transition: color 0.4s;
   cursor: pointer;
 }
 
-.color-block .icon:hover,
+.color-block .controls .icon:hover,
 .color-block .controls .locked {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.lock.locked {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .input-container {
@@ -59,5 +54,7 @@
   height: 100%;
   position: absolute;
   top: 0;
-  background-color: black;
+  background-color: white;
+  opacity: 0.2;
+  pointer-events: none;
 }
