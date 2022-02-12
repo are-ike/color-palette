@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fontColorContrast from 'font-color-contrast'
 import ColorFormats from '../color-formats/index'
 import { useState } from 'react'
+import { cls } from '../../util/functions'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
@@ -17,13 +18,17 @@ const ColorBlock =
 		onColorBlockLock,
 	}) => {
 	const [currentColor, setCurrentColor] = useState(color.hex)
+	const [isLoading, setIsLoading] = useState(false)
 	const { id } = color
 	const fontColor = fontColorContrast(color.hex)
 
 	const handleColorChange = newColor => {
 		setCurrentColor(newColor)
 		if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColor)){
+			setIsLoading(true)
 			onColorInputChange({id, newColor})
+			setIsLoading(false)
+			
 		}
 	}
 
@@ -41,7 +46,7 @@ const ColorBlock =
 	}
 
 	return(
-		<div style={{backgroundColor: `${color.hex}`}} className="color-block">
+		<div style={{backgroundColor: `${color.hex}`}} className={cls("color-block", isLoading ? "loading" : null)}>
 			<div className="controls">
 				<FontAwesomeIcon icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
 				<FontAwesomeIcon icon={faCopy} className="icon copy" onClick={handleCopy}/>
