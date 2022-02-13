@@ -34,3 +34,18 @@
 	display: flex;
 	height: calc(100vh - 98px);
 }
+
+.relative{
+	position: relative;
+}
+
+.absolute-loader{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+

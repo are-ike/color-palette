@@ -6,14 +6,17 @@ import { faFolderOpen, faListUl } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate, v4 as uuidv4 } from 'uuid'
 import getColorInformation from '../../api/colors'
-import './index.css'
 import { generateRandomHexColor } from '../../util/functions'
-
-
+import Loader from '../../components/loader/index'
+import PageNotFound from '../404/index'
+import './index.css'
 
 const Palette = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
+	const [isLoading, setIsLoading] = useState(true)
+	const [isError, setIsError] = useState(false)
+	const [redirect, setRedirect] = useState(false)
 	const [file, setFile] = useState({ 
 		file_id: "", 
 		file_name: "", 
@@ -22,12 +25,17 @@ const Palette = () => {
 
 	const fileKey = "color-palette-files"
 
+	const handleRedirect = () => {
+		setIsLoading(false)
+		setRedirect(true)
+	}
+
 	const getFile = () => {
 		const files = localStorage.getItem(fileKey)
 		if(files){
 			const filesObject = JSON.parse(files)
 			const file = filesObject.find(file =>  file.file_id === id)
-			return file ? setFile(file) : navigate("*")
+			return file ? setFile(file) : validate(id) ? generateNewFile() : handleRedirect()
 		}else{
 			navigate("*")
 		}
@@ -40,7 +48,7 @@ const Palette = () => {
 			locked: false
 		} : currentColor
 
-		const colorObject = await getColorInformation(color)
+		const colorObject = await getColorInformation(color, { setIsError, setIsLoading })
 		return colorObject
 	}
 
@@ -90,7 +98,8 @@ const Palette = () => {
 		updateFile( async (newFile) => {
 			const colors = await generateRandomPalette(file.colors?.length)
 			newFile.colors = [...colors]
-		}, true, e.keyCode === 32 && !e.target?.classList?.contains("file-name-input") 
+		}, true, 
+		e.keyCode === 32 && !e.target?.classList?.contains("file-name-input") 
 		&& !e.target?.classList?.contains("color-input") 
 		&& !e.target?.classList?.contains("number-input"))
 	}
@@ -103,12 +112,14 @@ const Palette = () => {
 
 	const onColorBlockNumberChange = colorNumber => {
 		updateFile( async (newFile) => {
+			setIsLoading(true)
 			if(colorNumber < newFile.colors?.length){
 				newFile.colors.pop()
 			}else{
 				const colorObject = await handleColorCreationAndUpdate()
 				newFile.colors.push(colorObject)
 			}
+			setIsLoading(false)
 		})
 	}
 
@@ -148,40 +159,73 @@ const Palette = () => {
 
 	 /* eslint-enable */ 
 	useEffect(() => {
+		if(file.file_id.length){
+			setIsLoading(false)
+		}
+	}, [file.file_id])
+
+	useEffect(() => {
 		document.addEventListener("keyup", onNewPalette)
 		return () => {
 			document.removeEventListener("keyup", onNewPalette)
 		}
 	})
-	return(
-		<div>
-			<header>
-				<div className="header-row header-row-one">
-					<FontAwesomeIcon icon={faFolderOpen} className="file-open-icon"/>
-					<Input value={file.file_name} setValue={onFileNameChange}/>
+	
+	const render = () => {
+		if(isLoading && !file.file_id.length){
+			return (<Loader/>)
+		}
+		if(isError){
+			return (
+				<div className='full-page'>
+					<p>An error occured, please <span>refresh</span> the page</p>
 				</div>
-				<div className="header-row header-row-two">
-					<p>Press the spacebar to generate a random palette!</p>
-					<div className="header-row-segment">
-						<Input type="number" value={file.colors?.length} setValue={onColorBlockNumberChange}/>
-						<Link to="/files">
-							<FontAwesomeIcon icon={faListUl} className="list-icon" title="Back to list"/>
-						</Link>
+			)
+		}
+		if(file.file_id.length && !isError){
+			return (
+				<div className={isLoading ? 'relative' : null }>
+					<div>
+						<header>
+							<div className="header-row header-row-one">
+								<FontAwesomeIcon icon={faFolderOpen} className="file-open-icon"/>
+								<Input value={file.file_name} setValue={onFileNameChange}/>
+							</div>
+							<div className="header-row header-row-two">
+								<p>Press the spacebar to generate a random palette!</p>
+								<div className="header-row-segment">
+									<Input type="number" value={file.colors?.length} disabled={isLoading} setValue={onColorBlockNumberChange}/>
+									<Link to="/files">
+										<FontAwesomeIcon icon={faListUl} className="list-icon" title="Back to list"/>
+									</Link>
+								</div>
+							</div>		
+						</header>
+						<main className="color-blocks">
+							{file.colors?.map((color) => (
+								<ColorBlock 
+									key={color.id}
+									color={color} 
+									onColorInputChange={onColorInputChange}
+									onColorBlockDelete={onColorBlockDelete}
+									onColorBlockLock={onColorBlockLock}
+								/>))}
+						</main>
 					</div>
-				</div>		
-			</header>
-			<main className="color-blocks">
-				{file.colors?.map((color, idx) => (
-					<ColorBlock 
-						key={color.id}
-						color={color} 
-						onColorInputChange={onColorInputChange}
-						onColorBlockDelete={onColorBlockDelete}
-						onColorBlockLock={onColorBlockLock}
-					/>))}
-			</main>
-		</div>
-	)
+					{
+						isLoading && (
+							<Loader classNames='absolute-loader' color='#ffffff'/>
+						)
+					}
+				</div>
+				
+			)
+		}
+		if(redirect){
+			return (<PageNotFound/>)
+		}
+	}
+	return( render() )
 }
 
 export default Palette

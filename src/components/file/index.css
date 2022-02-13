@@ -8,17 +8,14 @@
 	margin-bottom: 5px;
 }
 
-.file:hover{
-	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
-}
-
-.file h6{
+.file-link{
 	font-size: 1rem;
 	margin: 0;
 	font-weight: 200;
 	letter-spacing: 2px;
 	margin: 0 .5rem;
 	color: black;
+	text-decoration: none;
 }
 
 .file-icon{
@@ -35,4 +32,41 @@
 
 .delete-icon:hover{
 	color: rgba(69, 69, 235, 0.7);
+}
+
+.delete-toast-body{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.delete-text{
+	text-align: center;
+}
+
+.delete-btns-div{
+	display: flex;
+	margin-top: 2rem;
+	gap: 10%;
+}
+
+.delete-btns-div button{
+	padding: .4rem 2.5rem;
+	cursor: pointer;
+	outline: transparent;
+	border-radius: 4px;
+	border: 1px solid #eee;
+}
+
+.delete-btns-div button.delete{
+	background-color: rgba(235, 52, 52, 0.9);
+	color: white;
+}
+
+.delete-btns-div button.delete:hover{
+	background-color: rgb(235, 52, 52);
+}
+
+.delete-btns-div button.cancel{
+	background: transparent;
 }

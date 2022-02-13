@@ -1,5 +1,5 @@
 
-const getColorInformation = async (color) => {
+const getColorInformation = async (color, { setIsError, setIsLoading }) => {
 	try{
 		const response = await fetch(`https://www.thecolorapi.com/id?hex=${color?.hex?.slice(1)}`)
 		const colorObject = await response.json()
@@ -12,7 +12,9 @@ const getColorInformation = async (color) => {
 	
 		return newColor
 	}catch(e){
-		alert("Unable to retrieve color information")
+		setIsError(true)
+		setIsLoading(false)
+
 		console.log(e)
 		return color
 	}

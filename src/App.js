@@ -2,13 +2,13 @@ import './App.css';
 import ListOfFiles from './pages/files/index'
 import Palette from './pages/palette/index'
 import PageNotFound from './pages/404/index'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, Slide } from 'react-toastify';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <ToastContainer hideProgressBar/>
+      <ToastContainer hideProgressBar transition={Slide}/>
       <Router>
       <div className="App">
         <Routes>
