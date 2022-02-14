@@ -9,6 +9,7 @@ import getColorInformation from '../../api/colors'
 import { generateRandomHexColor } from '../../util/functions'
 import Loader from '../../components/loader/index'
 import PageNotFound from '../404/index'
+import { AnimatePresence } from 'framer-motion/dist/framer-motion'
 import './index.css'
 
 const Palette = () => {
@@ -184,7 +185,7 @@ const Palette = () => {
 		}
 		if(file.file_id.length && !isError){
 			return (
-				<div className={isLoading ? 'relative' : null }>
+				<div className={isLoading ? 'relative' : 'overflow-none' }>
 					<div>
 						<header>
 							<div className="header-row header-row-one">
@@ -203,13 +204,16 @@ const Palette = () => {
 						</header>
 						<main className="color-blocks">
 							{file.colors?.map((color) => (
-								<ColorBlock 
-									key={color.id}
-									color={color} 
-									onColorInputChange={onColorInputChange}
-									onColorBlockDelete={onColorBlockDelete}
-									onColorBlockLock={onColorBlockLock}
-								/>))}
+								<AnimatePresence>
+									<ColorBlock 
+										key={color.id}
+										color={color} 
+										onColorInputChange={onColorInputChange}
+										onColorBlockDelete={onColorBlockDelete}
+										onColorBlockLock={onColorBlockLock}
+									/>
+								</AnimatePresence>
+								))}
 						</main>
 					</div>
 					{

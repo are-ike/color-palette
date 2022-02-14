@@ -33,6 +33,7 @@
 .color-blocks{
 	display: flex;
 	height: calc(100vh - 98px);
+	overflow: hidden;
 }
 
 .relative{
@@ -49,3 +50,6 @@
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
+.overflow-none{
+	overflow: hidden;
+}
