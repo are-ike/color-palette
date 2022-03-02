@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import './index.css'
 
-const File = ({id, fileName, onDelete }) => {
+const File = ({id, fileName, onDelete, setDeleteToastId }) => {
 	const showDelete = () => {
-		toast(
+		const toastId = toast(
 			<div className='delete-toast-body'>
 				<p className='delete-text'>Are you sure you want to delete palette <span>{fileName}</span>?</p>
 				<div className='delete-btns-div'>
@@ -15,14 +15,16 @@ const File = ({id, fileName, onDelete }) => {
 				</div>
 			</div>,
 			{
+				toastId: `delete-${id}`,
 				position: toast.POSITION.TOP_CENTER,
 				autoClose: false,
-				closeButton: false,
+				closeOnClick: false,
 				style: {
 					cursor: "default"
 				}
 			}
 		)
+		setDeleteToastId(toastId)
 	}
 
 	return(

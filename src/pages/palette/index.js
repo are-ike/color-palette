@@ -6,15 +6,17 @@ import { faFolderOpen, faListUl } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate, v4 as uuidv4 } from 'uuid'
 import getColorInformation from '../../api/colors'
-import { generateRandomHexColor } from '../../util/functions'
+import { generateRandomHexColor, fileKey } from '../../util/functions'
 import Loader from '../../components/loader/index'
 import PageNotFound from '../404/index'
-import { AnimatePresence } from 'framer-motion/dist/framer-motion'
+import Backdrop from '../../components/backdrop';
 import './index.css'
+
 
 const Palette = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
+
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 	const [redirect, setRedirect] = useState(false)
@@ -23,8 +25,8 @@ const Palette = () => {
 		file_name: "", 
 		colors: []
 	})
-
-	const fileKey = "color-palette-files"
+	const [colorFormatsToastId, setColorFormatsToastId] = useState("")
+	const [showBackdrop, setShowBackdrop] = useState(false)
 
 	const handleRedirect = () => {
 		setIsLoading(false)
@@ -97,8 +99,12 @@ const Palette = () => {
 
 	const onNewPalette = (e) => {
 		updateFile( async (newFile) => {
+			setIsLoading(true)
+
 			const colors = await generateRandomPalette(file.colors?.length)
 			newFile.colors = [...colors]
+
+			setIsLoading(false)
 		}, true, 
 		e.keyCode === 32 && !e.target?.classList?.contains("file-name-input") 
 		&& !e.target?.classList?.contains("color-input") 
@@ -158,7 +164,6 @@ const Palette = () => {
 		getFile()
 	}, [])
 
-	 /* eslint-enable */ 
 	useEffect(() => {
 		if(file.file_id.length){
 			setIsLoading(false)
@@ -170,7 +175,14 @@ const Palette = () => {
 		return () => {
 			document.removeEventListener("keyup", onNewPalette)
 		}
-	})
+	}, [])
+
+	useEffect(() => {
+		if(colorFormatsToastId){
+			setShowBackdrop(true)
+		}
+	}, [colorFormatsToastId])
+	 /* eslint-enable */ 
 	
 	const render = () => {
 		if(isLoading && !file.file_id.length){
@@ -204,15 +216,15 @@ const Palette = () => {
 						</header>
 						<main className="color-blocks">
 							{file.colors?.map((color) => (
-								<AnimatePresence>
-									<ColorBlock 
-										key={color.id}
-										color={color} 
-										onColorInputChange={onColorInputChange}
-										onColorBlockDelete={onColorBlockDelete}
-										onColorBlockLock={onColorBlockLock}
-									/>
-								</AnimatePresence>
+								<ColorBlock 
+									key={color.id}
+									color={color} 
+									onColorInputChange={onColorInputChange}
+									onColorBlockDelete={onColorBlockDelete}
+									onColorBlockLock={onColorBlockLock}
+									setColorFormatsToastId={setColorFormatsToastId}
+									colorFormatsToastId={colorFormatsToastId}
+								/>
 								))}
 						</main>
 					</div>
@@ -229,7 +241,10 @@ const Palette = () => {
 			return (<PageNotFound/>)
 		}
 	}
-	return( render() )
+	return( <>
+	{render()}
+	<Backdrop show={showBackdrop} toastId={colorFormatsToastId} setShow={setShowBackdrop }/>
+	</> )
 }
 
 export default Palette

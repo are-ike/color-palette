@@ -34,10 +34,14 @@
 	color: rgba(69, 69, 235, 0.7);
 }
 
-.delete-toast-body{
+.delete-popup-body{
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	padding: 1rem;
+	border: 1px solid #eee;
+	border-radius: 4px;
+	background: #fff;
 }
 
 .delete-text{

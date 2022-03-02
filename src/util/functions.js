@@ -1,4 +1,6 @@
-const fileKey = "color-palette-files"
+import { toast } from 'react-toastify'
+
+export const fileKey = "color-palette-files"
 
 export const cls = (...classes) => {
 	return classes.join(" ")
@@ -10,4 +12,10 @@ export const generateRandomHexColor = () => {
 		hex += Math.floor( Math.random() * 15 ).toString(16)
 	}
 	return hex
+}
+
+export const removeToast = (toastId) => {
+	if(toastId && document.contains(document.getElementById(toastId))){
+		toast.dismiss(toastId)
+	}
 }

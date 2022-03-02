@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 function App() {
   return (
     <>
-      <ToastContainer hideProgressBar transition={Slide}/>
+      <ToastContainer hideProgressBar transition={Slide} closeButton={false}/>
       <Router>
       <div className="App">
         <Routes>

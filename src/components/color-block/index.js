@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import { cls } from '../../util/functions'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { motion } from 'framer-motion/dist/framer-motion'
 import './index.css'
 
 
@@ -17,6 +16,8 @@ const ColorBlock =
 		onColorInputChange, 
 		onColorBlockDelete,
 		onColorBlockLock,
+		colorFormatsToastId, 
+		setColorFormatsToastId
 	}) => {
 	const [currentColor, setCurrentColor] = useState(color.hex?.slice(1,))
 	const [isLoading, setIsLoading] = useState(false)
@@ -38,26 +39,24 @@ const ColorBlock =
 	}
 
 	const handleCopy = () => {
-		toast(<ColorFormats color={color}/>, 
+		const toastId = toast(<ColorFormats color={color}/>, 
 			{
-				toastId: "color-formats",
+				toastId: `color-formats-${id}`,
 				position: toast.POSITION.BOTTOM_CENTER,
 				autoClose: false,
 				closeOnClick: false,
 				style: {
 					cursor: "default"
-				}
+				},
 			})
+		setColorFormatsToastId(toastId)
+		
 	}
 
 	return(
 		
-			<motion.div 
+			<div 
 				key={id}
-				initial={{width: 0}}
-				animate={{width: '100%'}}
-				exit={{width: 0, transition: {duration: 0}}}
-				transition={{stiffness: 5}}
 				style={{backgroundColor: `${color.hex}`}} className={cls("color-block", isLoading ? "loading" : null)}>
 				<div className="controls">
 					<FontAwesomeIcon style={{color: iconColor}} icon={faTimes} className="icon cancel" onClick={() => onColorBlockDelete(id)}/>
@@ -70,7 +69,7 @@ const ColorBlock =
 				<div className="color-name">
 					<p style={{color: fontColor}}>{color.name}</p>
 				</div>
-			</motion.div>
+			</div>
 		
 	)
 }

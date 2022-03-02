@@ -41,11 +41,11 @@
 .input-container {
   width: 100px;
   margin-top: auto;
-  margin-bottom: .5rem;
 }
 
 .color-name{
   margin-bottom: 5rem;
+  font-size: .9rem;
 }
 
 .loading::after{

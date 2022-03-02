@@ -13,8 +13,7 @@ const AccordionColorContent = ({color}) => {
 			autoClose: 900,
 			style: {
 				cursor: "default",
-			},
-			closeButton: false
+			}
 		})
 	}
 	return (

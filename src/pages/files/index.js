@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 import File from '../../components/file/index'
 import NewPaletteButton from '../../components/new-file-btn/index'
+import { fileKey } from '../../util/functions'
+import Backdrop from "../../components/backdrop"
 import './index.css'
 
 const ListOfFiles = () => {
 	const [files, setFiles] = useState([])
-	const fileKey = "color-palette-files"
+	const [deleteToastId, setDeleteToastId] = useState("")
+	const [showBackdrop, setShowBackdrop] = useState(false)
 	
 	const getFiles = () => {
 		const files = localStorage.getItem(fileKey)
@@ -21,6 +24,13 @@ const ListOfFiles = () => {
 	useEffect(() => {
 		getFiles()
 	}, [])
+
+	useEffect(() => {
+		if(deleteToastId){
+			setShowBackdrop(true)
+
+		}
+	}, [deleteToastId])
 	
 
 	return (
@@ -45,6 +55,7 @@ const ListOfFiles = () => {
 											id={file.file_id} 
 											fileName={file.file_name}
 											onDelete={() => deleteFile(file.file_id)}
+											setDeleteToastId={setDeleteToastId}
 										/>
 									)
 								)}
@@ -53,7 +64,7 @@ const ListOfFiles = () => {
 					</main>
 				</div>)	
 			}
-
+			<Backdrop show={showBackdrop} toastId={deleteToastId} setShow={setShowBackdrop }/>
 		</div>
 	)
 
