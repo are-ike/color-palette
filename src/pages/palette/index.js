@@ -9,7 +9,8 @@ import getColorInformation from '../../api/colors'
 import { generateRandomHexColor, fileKey } from '../../util/functions'
 import Loader from '../../components/loader/index'
 import PageNotFound from '../404/index'
-import Backdrop from '../../components/backdrop';
+import Backdrop from '../../components/toast-backdrop';
+import { toast } from "react-toastify"
 import './index.css'
 
 
@@ -38,6 +39,7 @@ const Palette = () => {
 		if(files){
 			const filesObject = JSON.parse(files)
 			const file = filesObject.find(file =>  file.file_id === id)
+			console.log(id)
 			return file ? setFile(file) : validate(id) ? generateNewFile() : handleRedirect()
 		}else{
 			navigate("*")
@@ -73,7 +75,7 @@ const Palette = () => {
 	async function generateNewFile(){
 		const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? []
 		const colors = await generateRandomPalette(6)
-		
+
 		fileList.push({ 
 			file_id: id, 
 			file_name: id, 
@@ -159,6 +161,11 @@ const Palette = () => {
 		})
 	}
 
+	const hideBackdrop = () => {
+		setShowBackdrop(false)
+		toast.dismiss(colorFormatsToastId)
+		setColorFormatsToastId('')
+	}
 	 /* eslint-disable */ 
 	useEffect(() => {
 		getFile()
@@ -175,7 +182,7 @@ const Palette = () => {
 		return () => {
 			document.removeEventListener("keyup", onNewPalette)
 		}
-	}, [])
+	}, [onNewPalette])
 
 	useEffect(() => {
 		if(colorFormatsToastId){
@@ -243,7 +250,7 @@ const Palette = () => {
 	}
 	return( <>
 	{render()}
-	<Backdrop show={showBackdrop} toastId={colorFormatsToastId} setShow={setShowBackdrop }/>
+	<Backdrop show={showBackdrop} hide={hideBackdrop}/>
 	</> )
 }
 

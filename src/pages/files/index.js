@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import File from '../../components/file/index'
 import NewPaletteButton from '../../components/new-file-btn/index'
 import { fileKey } from '../../util/functions'
-import Backdrop from "../../components/backdrop"
+import Backdrop from "../../components/toast-backdrop"
 import './index.css'
+import { toast } from "react-toastify"
 
 const ListOfFiles = () => {
 	const [files, setFiles] = useState([])
@@ -27,11 +28,15 @@ const ListOfFiles = () => {
 
 	useEffect(() => {
 		if(deleteToastId){
-			setShowBackdrop(true)
-
+			setShowBackdrop(true) 
 		}
 	}, [deleteToastId])
 	
+	const hideBackdrop = () => {
+		setShowBackdrop(false)
+		toast.dismiss(deleteToastId)
+		setDeleteToastId('')
+	}
 
 	return (
 		<div className="files-page">
@@ -54,8 +59,13 @@ const ListOfFiles = () => {
 											key={file.file_id} 
 											id={file.file_id} 
 											fileName={file.file_name}
-											onDelete={() => deleteFile(file.file_id)}
+											onDelete={() => 
+												{
+													deleteFile(file.file_id)
+													hideBackdrop()
+												} }
 											setDeleteToastId={setDeleteToastId}
+											onCancel={hideBackdrop}
 										/>
 									)
 								)}
@@ -64,7 +74,7 @@ const ListOfFiles = () => {
 					</main>
 				</div>)	
 			}
-			<Backdrop show={showBackdrop} toastId={deleteToastId} setShow={setShowBackdrop }/>
+			<Backdrop show={showBackdrop} hide={hideBackdrop}/>
 		</div>
 	)
 
