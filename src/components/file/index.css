@@ -50,6 +50,7 @@
 
 .delete-btns-div{
 	display: flex;
+	justify-content: center;
 	margin-top: 2rem;
 	gap: 10%;
 }
