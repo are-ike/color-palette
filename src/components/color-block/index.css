@@ -8,6 +8,14 @@
   position: relative;
 }
 
+.color-block .add-block-btn{
+  visibility: hidden;
+}
+
+.color-block:hover .btn-visible{
+  visibility: visible;
+}
+
 .color-block .controls {
   display: flex;
   flex-direction: column;

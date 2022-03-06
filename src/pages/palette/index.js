@@ -123,7 +123,8 @@ const Palette = () => {
       e.keyCode === 32 &&
         !e.target?.classList?.contains("file-name-input") &&
         !e.target?.classList?.contains("color-input") &&
-        !e.target?.classList?.contains("number-input")
+        !e.target?.classList?.contains("number-input") &&
+        !isLoading
     );
   };
 
@@ -170,6 +171,20 @@ const Palette = () => {
           autoClose: 1300,
           position: toast.POSITION.TOP_CENTER,
         });
+      }
+    });
+  };
+
+  const onColorBlockAdd = (id) => {
+    updateFile(async (newFile) => {
+      const idx = newFile.colors?.findIndex((color) => color.id === id);
+      if (idx < 5) {
+        setIsLoading(true);
+
+        const newColor = await handleColorCreationAndUpdate();
+        newFile.colors?.splice(idx + 1, 0, newColor);
+
+        setIsLoading(false);
       }
     });
   };
@@ -260,9 +275,11 @@ const Palette = () => {
                 <ColorBlock
                   key={color.id}
                   color={color}
+                  canAddNewBlock={file.colors?.length < 6 ? true : false}
                   onColorInputChange={onColorInputChange}
                   onColorBlockDelete={onColorBlockDelete}
                   onColorBlockLock={onColorBlockLock}
+                  onColorBlockAdd={onColorBlockAdd}
                   setColorFormatsToastId={setColorFormatsToastId}
                   colorFormatsToastId={colorFormatsToastId}
                 />
