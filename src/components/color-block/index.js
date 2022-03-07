@@ -89,18 +89,21 @@ const ColorBlock = ({
           style={{ color: iconColor }}
           icon={faTimes}
           className="icon cancel"
+          data-tip='Remove color'
           onClick={() => onColorBlockDelete(id)}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={faCopy}
           className="icon copy"
+          data-tip='Copy code'
           onClick={handleCopy}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={!color.locked ? faUnlock : faLock}
           className={!color.locked ? "icon lock" : "icon lock locked"}
+          data-tip='Toggle lock'
           onClick={() => onColorBlockLock(id, !color.locked)}
         />
       </div>

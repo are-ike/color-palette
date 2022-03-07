@@ -2,6 +2,7 @@ import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ReactTooltip from 'react-tooltip';
 import "./index.css";
 
 const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
@@ -43,8 +44,9 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
         icon={faTrash}
         className="delete-icon"
         onClick={showDelete}
-        title="delete palette"
+        data-tip='Delete palette'
       />
+      <ReactTooltip effect="solid"/>
     </div>
   );
 };

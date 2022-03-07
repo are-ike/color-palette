@@ -10,6 +10,7 @@ import { generateRandomHexColor, fileKey } from "../../util/functions";
 import Loader from "../../components/loader/index";
 import PageNotFound from "../404/index";
 import Backdrop from "../../components/toast-backdrop";
+import ReactTooltip from 'react-tooltip';
 import { toast } from "react-toastify";
 import "./index.css";
 
@@ -264,7 +265,7 @@ const Palette = () => {
                     <FontAwesomeIcon
                       icon={faListUl}
                       className="list-icon"
-                      title="Back to list"
+                      data-tip="Palettes"
                     />
                   </Link>
                 </div>
@@ -287,6 +288,7 @@ const Palette = () => {
             </main>
           </div>
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
+          <ReactTooltip effect="solid" type="dark"/>
         </div>
       );
     }
@@ -298,6 +300,7 @@ const Palette = () => {
     <>
       {render()}
       <Backdrop show={showBackdrop} hide={hideBackdrop} />
+      
     </>
   );
 };

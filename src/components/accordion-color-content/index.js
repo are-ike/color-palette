@@ -2,6 +2,7 @@ import './index.css'
 import { toast } from 'react-toastify';
 import { faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ReactTooltip from 'react-tooltip';
 
 const AccordionColorContent = ({color}) => {
 	
@@ -19,7 +20,8 @@ const AccordionColorContent = ({color}) => {
 	return (
 		<div className="color-content">
 			<p>{color}</p>
-			<FontAwesomeIcon icon={faCopy} className="icon" onClick={onCopy}/>
+			<FontAwesomeIcon icon={faCopy} className="icon" onClick={onCopy} data-tip='Copy'/>
+			<ReactTooltip effect="solid" place='left'/>
 		</div>
 	)
 }
