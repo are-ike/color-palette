@@ -57,7 +57,10 @@ const ColorBlock = ({
     const newColorHex = `#${newColor}`;
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex)) {
       setIsLoading(true);
-      onColorInputChange({ id, newColor: newColor.length === 3 ? newColorHex + newColor: newColorHex });
+      onColorInputChange({
+        id,
+        newColor: newColor.length === 3 ? newColorHex + newColor : newColorHex,
+      });
     }
   };
 
@@ -118,9 +121,9 @@ const ColorBlock = ({
           onClick={() => onColorBlockAdd(id)}
         />
       )}
-	  {
-		  isLoading && (<Loader isFullpage={false} classNames='loading' color={iconColor}/>)
-	  }
+      {isLoading && (
+        <Loader isFullpage={false} classNames="loading" color={iconColor} />
+      )}
     </div>
   );
 };

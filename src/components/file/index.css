@@ -6,6 +6,11 @@
 	transition: box-shadow 0.5s;
 	text-decoration: none;
 	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.file:hover{
+	box-shadow: 0 2px 5px #eee;
 }
 
 .file-link{

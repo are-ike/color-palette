@@ -1,10 +1,12 @@
 import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./index.css";
 
 const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
+  const navigate = useNavigate();
+
   const showDelete = () => {
     const toastId = toast(
       <div className="delete-toast-body">
@@ -34,11 +36,9 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
   };
 
   return (
-    <div className="file">
+    <div className="file" onClick={() => navigate(`/palette/${id}`)}>
       <FontAwesomeIcon icon={faFolder} className="file-icon" />
-      <Link className="file-link" to={`/palette/${id}`}>
-        {fileName}
-      </Link>
+      <p className="file-link">{fileName}</p>
       <FontAwesomeIcon
         icon={faTrash}
         className="delete-icon"
