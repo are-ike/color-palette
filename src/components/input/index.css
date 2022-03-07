@@ -21,7 +21,8 @@
 	font-family: inherit;
 	font-weight: 500;
 	cursor: pointer;
-	text-transform: uppercase	;
+	text-align: center;
+	text-transform: uppercase;
 }
 
 .color-input:focus{

@@ -13,6 +13,7 @@ import { cls } from "../../util/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddBlockBtn from "../add-block-btn";
+import Loader from "../loader";
 import "./index.css";
 
 const ColorBlock = ({
@@ -56,7 +57,7 @@ const ColorBlock = ({
     const newColorHex = `#${newColor}`;
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex)) {
       setIsLoading(true);
-      onColorInputChange({ id, newColor: newColorHex });
+      onColorInputChange({ id, newColor: newColor.length === 3 ? newColorHex + newColor: newColorHex });
     }
   };
 
@@ -77,7 +78,7 @@ const ColorBlock = ({
     <div
       ref={colorBlockRef}
       style={{ backgroundColor: `${color.hex}` }}
-      className={cls("color-block", isLoading ? "loading" : null)}
+      className={cls("color-block")}
       onMouseMove={showAddBlockBtn}
     >
       <div className="controls">
@@ -117,6 +118,9 @@ const ColorBlock = ({
           onClick={() => onColorBlockAdd(id)}
         />
       )}
+	  {
+		  isLoading && (<Loader isFullpage={false} classNames='loading' color={iconColor}/>)
+	  }
     </div>
   );
 };
