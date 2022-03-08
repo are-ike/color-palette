@@ -265,7 +265,7 @@ const Palette = () => {
                   <Link to="/files">
                     <FontAwesomeIcon
                       icon={faListUl}
-                      className="list-icon"
+                      className="list-icon outline-none"
                       data-tip="Palettes"
                     />
                   </Link>
@@ -290,7 +290,7 @@ const Palette = () => {
             </main>
           </div>
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
-          <ReactTooltip effect="solid" />
+          <ReactTooltip effect="solid" delayShow={100}/>
         </div>
       );
     }

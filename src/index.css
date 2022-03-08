@@ -20,3 +20,7 @@ body{
 	justify-content: center;
 	display: flex;
 }
+
+.outline-none{
+	outline: none;
+}

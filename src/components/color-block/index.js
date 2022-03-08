@@ -86,21 +86,24 @@ const ColorBlock = ({
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={faTimes}
-          className="icon cancel"
+          className="icon cancel outline-none"
           data-tip="Remove color"
           onClick={() => onColorBlockDelete(id)}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={faCopy}
-          className="icon copy"
+          className="icon copy outline-none"
           data-tip="Copy code"
           onClick={handleCopy}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={!color.locked ? faUnlock : faLock}
-          className={!color.locked ? "icon lock" : "icon lock locked"}
+          className={cls(
+            "outline-none icon lock",
+            color.locked ? "icon lock locked" : null
+          )}
           data-tip="Toggle lock"
           onClick={() => onColorBlockLock(id, !color.locked)}
         />
@@ -114,7 +117,9 @@ const ColorBlock = ({
         />
       </div>
       <div className="color-name">
-        <p style={{ color: fontColor }}>{color.name}</p>
+        <p style={{ color: fontColor }} title={color.name}>
+          {color.name}
+        </p>
       </div>
       {canAddNewBlock && (
         <AddBlockBtn
@@ -128,7 +133,7 @@ const ColorBlock = ({
       {isLoading && (
         <Loader isFullpage={false} classNames="loading" color={iconColor} />
       )}
-      <ReactTooltip effect="solid" />
+      <ReactTooltip effect="solid" delayShow={100} />
     </div>
   );
 };

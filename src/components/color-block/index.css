@@ -57,6 +57,13 @@
   text-align: center;
 }
 
+.color-name p{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 13rem;
+  white-space: nowrap;
+}
+
 .loading{
   position: absolute;
   top: 0;

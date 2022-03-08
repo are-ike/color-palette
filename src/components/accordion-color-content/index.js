@@ -20,8 +20,8 @@ const AccordionColorContent = ({color}) => {
 	return (
 		<div className="color-content">
 			<p>{color}</p>
-			<FontAwesomeIcon icon={faCopy} className="icon" onClick={onCopy} data-tip='Copy'/>
-			<ReactTooltip effect="solid" place='left'/>
+			<FontAwesomeIcon icon={faCopy} className="icon outline-none" onClick={onCopy} data-tip='Copy'/>
+			<ReactTooltip effect="solid" place='left' delayShow={100} arrowColor='transparent'/>
 		</div>
 	)
 }
