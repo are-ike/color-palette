@@ -32,7 +32,6 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
         </div>
       </div>,
       {
-        toastId: `delete-${id}`,
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
         closeOnClick: false,
@@ -49,7 +48,7 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
       <FontAwesomeIcon icon={faFolder} className="file-icon" />
       <p className="file-link">{fileName}</p>
       <div className="file-btns-div">
-        <Button onClick={() => navigate(`/palette/${id}`)} className='edit'>Edit</Button>
+        <Button onClick={() => navigate(`/palette/${id}`)} className='edit'>Open</Button>
         <Button onClick={showDelete} className='delete'>Delete</Button>
       </div>
     </div>

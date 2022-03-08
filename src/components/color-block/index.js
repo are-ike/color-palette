@@ -25,6 +25,7 @@ const ColorBlock = ({
   onColorBlockAdd,
   setColorFormatsToastId,
   canAddNewBlock,
+  isLastBlock,
 }) => {
   const [currentColor, setCurrentColor] = useState(color.hex?.slice(1));
   const [isLoading, setIsLoading] = useState(false);
@@ -38,18 +39,17 @@ const ColorBlock = ({
     setIsLoading(false);
   }, [color]);
 
-  const showAddBlockBtn = 
-    (e) => {
-      if (colorBlockRef.current) {
-        const right = colorBlockRef.current.getBoundingClientRect()?.right;
-        if (e.screenX >= right) setShow(false);
-        if (right - e.screenX < 40) {
-          setShow(true);
-        } else {
-          setShow(false);
-        }
+  const showAddBlockBtn = (e) => {
+    if (colorBlockRef.current) {
+      const right = colorBlockRef.current.getBoundingClientRect()?.right;
+      if (e.screenX >= right) setShow(false);
+      if (right - e.screenX < 40) {
+        setShow(true);
+      } else {
+        setShow(false);
       }
     }
+  };
 
   const handleColorChange = (newColor) => {
     setCurrentColor(newColor);
@@ -65,7 +65,6 @@ const ColorBlock = ({
 
   const handleCopy = () => {
     const toastId = toast(<ColorFormats color={color} />, {
-      toastId: `color-formats-${id}`,
       position: toast.POSITION.BOTTOM_CENTER,
       autoClose: false,
       closeOnClick: false,
@@ -119,7 +118,10 @@ const ColorBlock = ({
       </div>
       {canAddNewBlock && (
         <AddBlockBtn
-          className={show ? "btn-visible" : null}
+          className={cls(
+            show ? "btn-visible" : null,
+            isLastBlock ? "position-r-1" : null
+          )}
           onClick={() => onColorBlockAdd(id)}
         />
       )}

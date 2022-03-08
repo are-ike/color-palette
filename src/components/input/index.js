@@ -5,14 +5,14 @@ const toastOptions = { autoClose: 1300, position: toast.POSITION.TOP_CENTER };
 const Input = ({ isColorInput = false, value, setValue, type, ...props }) => {
   const onValueChange = (value) => {
     if (type === "number") {
-      if (value > 0 && value < 7) {
+      if (value > 0 && value < 6) {
         setValue(value);
       } else if (value < 1) {
         toast.warning("Color block number cannot go below 1", {
           toastId: "min-limit",
           ...toastOptions,
         });
-      } else if (value > 6) {
+      } else if (value > 5) {
         toast.warning("Max color block limit reached", {
           toastId: "max-limit",
           ...toastOptions,

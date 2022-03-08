@@ -69,3 +69,7 @@
   pointer-events: none;
   background-color: transparent;
 }
+
+.add-block-btn.position-r-1{
+  right: 1rem;
+}

@@ -10,8 +10,10 @@ import { toast } from "react-toastify";
 
 const ListOfFiles = () => {
   const [files, setFiles] = useState([]);
-  const [deleteToastId, setDeleteToastId] = useState("");
-  const [showBackdrop, setShowBackdrop] = useState(false);
+  const [backdrop, setBackdrop] = useState({
+    show: false,
+    toastId: ''
+  });
 
   const getFiles = () => {
     const files = localStorage.getItem(fileKey);
@@ -21,10 +23,19 @@ const ListOfFiles = () => {
   };
 
   const hideBackdrop = () => {
-    setShowBackdrop(false);
-    toast.dismiss(deleteToastId);
-    setDeleteToastId("");
+    toast.dismiss(backdrop.toastId);
+    setBackdrop({
+      show: false,
+      toastId: ''
+    });
   };
+
+  const setDeleteToastId = id =>
+    setBackdrop({
+      show: true,
+      toastId: id
+    })
+  
 
   const deleteFile = (id) => {
     const newFiles = files.filter((file) => id !== file.file_id);
@@ -38,11 +49,6 @@ const ListOfFiles = () => {
     getFiles();
   }, []);
 
-  useEffect(() => {
-    if (deleteToastId) {
-      setShowBackdrop(true);
-    }
-  }, [deleteToastId]);
 
   return (
     <div className="files-page">
@@ -77,7 +83,7 @@ const ListOfFiles = () => {
           </main>
         </div>
       )}
-      <Backdrop show={showBackdrop} hide={hideBackdrop} />
+      <Backdrop show={backdrop.show} hide={hideBackdrop} />
     </div>
   );
 };

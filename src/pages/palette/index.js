@@ -83,7 +83,7 @@ const Palette = () => {
 
   async function generateNewFile() {
     const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? [];
-    const colors = await generateRandomPalette(6);
+    const colors = await generateRandomPalette(5);
 
     fileList.push({
       file_id: id,
@@ -151,7 +151,7 @@ const Palette = () => {
   const onColorInputChange = ({ id, newColor }) => {
     updateFile(async (newFile) => {
       const colorIdx = newFile.colors.findIndex((color) => color.id === id);
-      if (colorIdx) {
+      if (colorIdx >= 0) {
         newFile.colors[colorIdx].hex = newColor;
         const colorObject = await handleColorCreationAndUpdate(
           newFile.colors[colorIdx]
@@ -255,6 +255,7 @@ const Palette = () => {
               <div className="header-row header-row-two">
                 <p>Press the spacebar to generate a random palette!</p>
                 <div className="header-row-segment">
+                  <span>Color blocks</span>
                   <Input
                     type="number"
                     value={file.colors?.length}
@@ -272,11 +273,12 @@ const Palette = () => {
               </div>
             </header>
             <main className="color-blocks">
-              {file.colors?.map((color) => (
+              {file.colors?.map((color, idx) => (
                 <ColorBlock
                   key={color.id}
                   color={color}
-                  canAddNewBlock={file.colors?.length < 6 ? true : false}
+                  canAddNewBlock={file.colors?.length < 5 ? true : false}
+                  isLastBlock={idx === file.colors?.length - 1 ? true : false}
                   onColorInputChange={onColorInputChange}
                   onColorBlockDelete={onColorBlockDelete}
                   onColorBlockLock={onColorBlockLock}
