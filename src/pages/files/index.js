@@ -3,6 +3,8 @@ import File from "../../components/file/index";
 import NewPaletteButton from "../../components/new-file-btn/index";
 import { fileKey } from "../../util/functions";
 import Backdrop from "../../components/toast-backdrop";
+import { faPalette } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./index.css";
 import { toast } from "react-toastify";
 
@@ -47,11 +49,14 @@ const ListOfFiles = () => {
       {!files ? (
         <div>No files</div>
       ) : (
-        <div>
+        <div className="files-page-content">
           <header className="header">
-            <h4>Your Color Palettes</h4>
-            <NewPaletteButton />
+              <FontAwesomeIcon icon={faPalette} className="icon"/>
+              <h4>Your color palettes</h4>
           </header>
+          <div className="new-palette">
+          <NewPaletteButton />
+          </div>
           <main className="file-list">
             {!files.length ? (
               <div>No files</div>

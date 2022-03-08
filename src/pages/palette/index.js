@@ -10,7 +10,7 @@ import { generateRandomHexColor, fileKey } from "../../util/functions";
 import Loader from "../../components/loader/index";
 import PageNotFound from "../404/index";
 import Backdrop from "../../components/toast-backdrop";
-import ReactTooltip from 'react-tooltip';
+import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 import "./index.css";
 
@@ -288,7 +288,7 @@ const Palette = () => {
             </main>
           </div>
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
-          <ReactTooltip effect="solid" type="dark"/>
+          <ReactTooltip effect="solid" />
         </div>
       );
     }
@@ -300,7 +300,6 @@ const Palette = () => {
     <>
       {render()}
       <Backdrop show={showBackdrop} hide={hideBackdrop} />
-      
     </>
   );
 };

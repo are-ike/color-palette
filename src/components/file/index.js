@@ -2,8 +2,16 @@ import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReactTooltip from 'react-tooltip';
+import { cls } from "../../util/functions";
 import "./index.css";
+
+const Button = ({children, onClick, className}) => {
+  return (
+    <button onClick={onClick} className={cls("file-btn", className)}>
+      {children}
+    </button>
+  )
+}
 
 const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
   const navigate = useNavigate();
@@ -15,12 +23,12 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
           Are you sure you want to delete palette <span>{fileName}</span>?
         </p>
         <div className="delete-btns-div">
-          <button className="delete" onClick={onDelete}>
+          <Button className="delete" onClick={onDelete}>
             Delete
-          </button>
-          <button className="cancel" onClick={onCancel}>
+          </Button>
+          <Button className="cancel" onClick={onCancel}>
             Cancel
-          </button>
+          </Button>
         </div>
       </div>,
       {
@@ -37,16 +45,13 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
   };
 
   return (
-    <div className="file" onClick={() => navigate(`/palette/${id}`)}>
+    <div className="file">
       <FontAwesomeIcon icon={faFolder} className="file-icon" />
       <p className="file-link">{fileName}</p>
-      <FontAwesomeIcon
-        icon={faTrash}
-        className="delete-icon"
-        onClick={showDelete}
-        data-tip='Delete palette'
-      />
-      <ReactTooltip effect="solid"/>
+      <div className="file-btns-div">
+        <Button onClick={() => navigate(`/palette/${id}`)} className='edit'>Edit</Button>
+        <Button onClick={showDelete} className='delete'>Delete</Button>
+      </div>
     </div>
   );
 };

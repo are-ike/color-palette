@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { cls } from "../../util/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactTooltip from "react-tooltip";
 import AddBlockBtn from "../add-block-btn";
 import Loader from "../loader";
 import "./index.css";
@@ -37,7 +38,7 @@ const ColorBlock = ({
     setIsLoading(false);
   }, [color]);
 
-  const showAddBlockBtn = useCallback(
+  const showAddBlockBtn = 
     (e) => {
       if (colorBlockRef.current) {
         const right = colorBlockRef.current.getBoundingClientRect()?.right;
@@ -48,9 +49,7 @@ const ColorBlock = ({
           setShow(false);
         }
       }
-    },
-    [colorBlockRef.current]
-  );
+    }
 
   const handleColorChange = (newColor) => {
     setCurrentColor(newColor);
@@ -89,21 +88,21 @@ const ColorBlock = ({
           style={{ color: iconColor }}
           icon={faTimes}
           className="icon cancel"
-          data-tip='Remove color'
+          data-tip="Remove color"
           onClick={() => onColorBlockDelete(id)}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={faCopy}
           className="icon copy"
-          data-tip='Copy code'
+          data-tip="Copy code"
           onClick={handleCopy}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={!color.locked ? faUnlock : faLock}
           className={!color.locked ? "icon lock" : "icon lock locked"}
-          data-tip='Toggle lock'
+          data-tip="Toggle lock"
           onClick={() => onColorBlockLock(id, !color.locked)}
         />
       </div>
@@ -127,6 +126,7 @@ const ColorBlock = ({
       {isLoading && (
         <Loader isFullpage={false} classNames="loading" color={iconColor} />
       )}
+      <ReactTooltip effect="solid" />
     </div>
   );
 };
