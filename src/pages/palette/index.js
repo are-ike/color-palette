@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Input from "../../components/input/index";
 import ColorBlock from "../../components/color-block/index";
-import { faFolderOpen, faListUl } from "@fortawesome/free-solid-svg-icons";
+import { faFolderOpen, faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validate, v4 as uuidv4 } from "uuid";
 import getColorInformation from "../../api/colors";
@@ -17,7 +17,7 @@ import "./index.css";
 const Palette = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [redirect, setRedirect] = useState(false);
@@ -28,7 +28,7 @@ const Palette = () => {
   });
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
-
+ 
   const handleRedirect = () => {
     setIsLoading(false);
     setRedirect(true);
@@ -202,6 +202,7 @@ const Palette = () => {
     toast.dismiss(colorFormatsToastId);
     setColorFormatsToastId("");
   };
+
   /* eslint-disable */
   useEffect(() => {
     getFile();
@@ -264,7 +265,7 @@ const Palette = () => {
                   />
                   <Link to="/files">
                     <FontAwesomeIcon
-                      icon={faListUl}
+                      icon={faBars}
                       className="list-icon outline-none"
                       data-tip="Palettes"
                     />
@@ -290,7 +291,7 @@ const Palette = () => {
             </main>
           </div>
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
-          <ReactTooltip effect="solid" delayShow={100}/>
+          <ReactTooltip effect="solid" delayShow={100} />
         </div>
       );
     }
