@@ -36,6 +36,10 @@ const ColorBlock = ({
   const colorBlockRef = useRef();
 
   useEffect(() => {
+    setCurrentColor(color.hex?.slice(1));
+  }, [color?.hex]);
+
+  useEffect(() => {
     setIsLoading(false);
   }, [color]);
 
@@ -54,11 +58,12 @@ const ColorBlock = ({
   const handleColorChange = (newColor) => {
     setCurrentColor(newColor);
     const newColorHex = `#${newColor}`;
-    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex)) {
+    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex) && !color.hex.includes(newColorHex) && !newColorHex.includes(color.hex)) {
+      console.log('yh');
       setIsLoading(true);
       onColorInputChange({
         id,
-        newColor: newColor.length === 3 ? newColorHex + newColor : newColorHex,
+        newColor: newColorHex,
       });
     }
   };
@@ -102,7 +107,7 @@ const ColorBlock = ({
           icon={!color.locked ? faUnlock : faLock}
           className={cls(
             "outline-none icon lock",
-            color.locked ? "icon lock locked" : null
+            color.locked ? "locked" : null
           )}
           data-tip="Toggle lock"
           onClick={() => onColorBlockLock(id, !color.locked)}

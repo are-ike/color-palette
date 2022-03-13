@@ -20,17 +20,17 @@ const useCache = ({ updateFile }) => {
       updateFile(
         (newFile) => {
           newFile.file_name = cache[pointer]?.file_name;
-          newFile.colors = cache[pointer]?.colors?.map(color => color);
+          newFile.colors = cache[pointer]?.colors?.map((color) => color);
         },
         false,
         null,
         true
       );
 
-      setAction(actionTypes.none)
+      setAction(actionTypes.none);
     }
   }, [action]);
-console.log(cache);
+  //console.log(cache);
   //Add file state to cache
   const addToCache = (file) => {
     setPointer(cache.length);

@@ -46,6 +46,11 @@
   opacity: 0.6;
 }
 
+.color-block .controls .locked {
+  font-size: 1.18rem;
+  transition: font-size .5s;
+}
+
 .input-container {
   width: 100px;
   margin-top: auto;
