@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontColorContrast from "font-color-contrast";
 import ColorFormats from "../color-formats/index";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cls } from "../../util/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Input from "../../components/input/index";
 import ColorBlock from "../../components/color-block/index";
-import { faFolderOpen, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFolderOpen,
+  faBars,
+  faArrowLeft,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { validate, v4 as uuidv4 } from "uuid";
 import getColorInformation from "../../api/colors";
-import { generateRandomHexColor, fileKey } from "../../util/functions";
+import { generateRandomHexColor, fileKey, cls } from "../../util/functions";
+import useCache from "../../hooks/useCache";
 import Loader from "../../components/loader/index";
 import PageNotFound from "../404/index";
 import Backdrop from "../../components/toast-backdrop";
@@ -17,7 +23,7 @@ import "./index.css";
 const Palette = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [redirect, setRedirect] = useState(false);
@@ -28,7 +34,8 @@ const Palette = () => {
   });
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
- 
+  const cache = useCache({ updateFile });
+
   const handleRedirect = () => {
     setIsLoading(false);
     setRedirect(true);
@@ -95,20 +102,26 @@ const Palette = () => {
     getFile();
   }
 
-  const updateFile = (func, hasCondition, condition) => {
+  function updateFile(func, hasCondition, condition, isFromCache = false) {
     const update = async () => {
       const fileList = JSON.parse(localStorage.getItem(fileKey)).filter(
         (file) => id !== file.file_id
       );
-      const updatedFile = { ...file };
+      const updatedFile = {
+        ...file,
+        colors: file.colors.map((color) => ({ ...color })),
+      };
       await func(updatedFile);
+
+      if (!isFromCache) cache.addToCache(updatedFile);
+
       fileList.unshift(updatedFile);
       localStorage.setItem(fileKey, JSON.stringify(fileList));
       getFile();
     };
 
     hasCondition ? condition && update() : update();
-  };
+  }
 
   const onNewPalette = (e) => {
     updateFile(
@@ -211,6 +224,7 @@ const Palette = () => {
   useEffect(() => {
     if (file.file_id.length) {
       setIsLoading(false);
+      cache.addToCache(file);
     }
   }, [file.file_id]);
 
@@ -256,13 +270,29 @@ const Palette = () => {
               <div className="header-row header-row-two">
                 <p>Press the spacebar to generate a random palette!</p>
                 <div className="header-row-segment">
-                  <span>Color blocks</span>
-                  <Input
-                    type="number"
-                    value={file.colors?.length}
-                    disabled={isLoading}
-                    setValue={onColorBlockNumberChange}
-                  />
+                  <div className="color-block-input">
+                    <span>Color blocks:</span>
+                    <Input
+                      type="number"
+                      value={file.colors?.length}
+                      disabled={isLoading}
+                      setValue={onColorBlockNumberChange}
+                    />
+                  </div>
+                  <div className="undo-redo">
+                    <FontAwesomeIcon
+                      icon={faArrowLeft}
+                      className={cls(cache.canUndo ? "undo" : "disable-undo", "outline-none")}
+                      onClick={cache.undo}
+                      data-tip="Undo"
+                    />
+                    <FontAwesomeIcon
+                      icon={faArrowRight}
+                      className={cls(cache.canRedo ? "redo" : "disable-redo", "outline-none")}
+                      onClick={cache.redo}
+                      data-tip="Redo"
+                    />
+                  </div>
                   <Link to="/files">
                     <FontAwesomeIcon
                       icon={faBars}
