@@ -1,26 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 
-*{
-  font-family: 'Montserrat', sans-serif;
+* {
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
 
-.Toastify__toast-container{
-	width: 40% !important;
-	padding: 1rem !important;
+.Toastify__toast-container {
+  max-width: 90% !important;
+  width: 500px !important;
+  padding: 1rem !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
-body{
+body {
   margin: 0;
 }
 
-.full-page{
-	height: 100vh;
-	align-items: center;
-	justify-content: center;
-	display: flex;
+.full-page {
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
-.outline-none{
-	outline: none;
+.outline-none {
+  outline: none;
+}
+
+@media (max-width: 1280px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 760px) {
+  .Toastify__toast-container {
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 450px) {
+  html {
+    font-size: 10px;
+  }
 }

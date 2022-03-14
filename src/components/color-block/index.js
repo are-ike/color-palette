@@ -113,18 +113,20 @@ const ColorBlock = ({
           onClick={() => onColorBlockLock(id, !color.locked)}
         />
       </div>
-      <div className="input-container">
-        <Input
-          isColorInput
-          value={currentColor}
-          setValue={handleColorChange}
-          style={{ color: fontColor }}
-        />
-      </div>
-      <div className="color-name">
-        <p style={{ color: fontColor }} title={color.name}>
-          {color.name}
-        </p>
+      <div className="color-name-container">
+        <div className="input-container">
+          <Input
+            isColorInput
+            value={currentColor}
+            setValue={handleColorChange}
+            style={{ color: fontColor }}
+          />
+        </div>
+        <div className="color-name">
+          <p style={{ color: fontColor }} title={color.name}>
+            {color.name}
+          </p>
+        </div>
       </div>
       {canAddNewBlock && (
         <AddBlockBtn

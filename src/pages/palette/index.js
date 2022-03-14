@@ -20,7 +20,7 @@ import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 import "./index.css";
 
-const DEFAULT_BLOCK_NUMBER = 7
+const DEFAULT_BLOCK_NUMBER = 7;
 
 const Palette = () => {
   const { id } = useParams();
@@ -40,6 +40,8 @@ const Palette = () => {
   });
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
+  const [screenSize, setScreenSize] = useState(window.innerWidth)
+
   const cache = useCache({ updateFile });
 
   const handleRedirect = () => {
@@ -144,7 +146,7 @@ const Palette = () => {
         const colors = await generateRandomPalette(file.colors?.length, () => {
           setError({
             isError: true,
-            arguments: {keyCode: 32},
+            arguments: { keyCode: 32 },
             retryFunction: onNewPalette,
           });
         });
@@ -153,11 +155,11 @@ const Palette = () => {
         setIsLoading(false);
       },
       true,
-      e.keyCode === 32 &&
+      (e.keyCode === 32 &&
         !e.target?.classList?.contains("file-name-input") &&
         !e.target?.classList?.contains("color-input") &&
         !e.target?.classList?.contains("number-input") &&
-        !isLoading
+        !isLoading) || (screenSize <= 1280)
     );
   };
 
@@ -259,6 +261,10 @@ const Palette = () => {
     error.retryFunction(error.arguments);
   };
 
+  const handleScreenResize = () => {
+    setScreenSize(window.innerWidth)
+  }
+
   /* eslint-disable */
   useEffect(() => {
     getFile();
@@ -273,10 +279,12 @@ const Palette = () => {
 
   useEffect(() => {
     document.addEventListener("keyup", onNewPalette);
+    window.addEventListener("resize", handleScreenResize)
     return () => {
       document.removeEventListener("keyup", onNewPalette);
+      window.removeEventListener("resize", handleScreenResize)
     };
-  }, [onNewPalette]);
+  }, []);
 
   useEffect(() => {
     if (colorFormatsToastId) {
@@ -315,7 +323,11 @@ const Palette = () => {
                 <Input value={file.file_name} setValue={onFileNameChange} />
               </div>
               <div className="header-row header-row-two">
-                <p>Press the spacebar to generate a random palette!</p>
+                {screenSize > 1280 ? (
+                  <p>Press the spacebar to generate a random palette!</p>
+                ) : (
+                  <button className="generate-palette" onClick={onNewPalette}>Generate</button>
+                )}
                 <div className="header-row-segment">
                   <div className="color-block-input">
                     <span>Color blocks:</span>
@@ -361,7 +373,9 @@ const Palette = () => {
                 <ColorBlock
                   key={color.id}
                   color={color}
-                  canAddNewBlock={file.colors?.length < DEFAULT_BLOCK_NUMBER ? true : false}
+                  canAddNewBlock={
+                    file.colors?.length < DEFAULT_BLOCK_NUMBER ? true : false
+                  }
                   isLastBlock={idx === file.colors?.length - 1 ? true : false}
                   onColorInputChange={onColorInputChange}
                   onColorBlockDelete={onColorBlockDelete}

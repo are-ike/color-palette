@@ -5,13 +5,13 @@ import { toast } from "react-toastify";
 import { cls } from "../../util/functions";
 import "./index.css";
 
-const Button = ({children, onClick, className}) => {
+const Button = ({ children, onClick, className }) => {
   return (
     <button onClick={onClick} className={cls("file-btn", className)}>
       {children}
     </button>
-  )
-}
+  );
+};
 
 const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
   const navigate = useNavigate();
@@ -45,11 +45,17 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
 
   return (
     <div className="file">
-      <FontAwesomeIcon icon={faFolder} className="file-icon" />
-      <p className="file-link">{fileName}</p>
+      <div className="file-name">
+        <FontAwesomeIcon icon={faFolder} className="file-icon" />
+        <p className="file-link">{fileName}</p>
+      </div>
       <div className="file-btns-div">
-        <Button onClick={() => navigate(`/palette/${id}`)} className='edit'>Open</Button>
-        <Button onClick={showDelete} className='delete'>Delete</Button>
+        <Button onClick={() => navigate(`/palette/${id}`)} className="edit">
+          Open
+        </Button>
+        <Button onClick={showDelete} className="delete">
+          Delete
+        </Button>
       </div>
     </div>
   );

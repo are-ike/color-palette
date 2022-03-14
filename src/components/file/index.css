@@ -1,83 +1,109 @@
-.file{
-	display: flex;
-	align-items: center;
-	border-bottom: solid 0.5px #e6e6e6;
-	padding: 1rem 2rem;
-	transition: box-shadow 0.5s;
-	text-decoration: none;
-	margin-bottom: 5px;
+.file {
+  display: flex;
+  align-items: center;
+  border-bottom: solid 0.5px #e6e6e6;
+  padding: 1rem 2rem;
+  transition: box-shadow 0.5s;
+  text-decoration: none;
+  margin-bottom: 5px;
 }
 
-.file-link{
-	font-size: 1rem;
-	margin: 0;
-	font-weight: 200;
-	letter-spacing: 2px;
-	margin: 0 .5rem;
-	color: rgba(0, 0, 0, .6);
-	text-decoration: none;
+.file-link {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 200;
+  letter-spacing: 2px;
+  margin: 0 0.5rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
 }
 
-.file-icon{
-	font-size: 1.7rem;
-	color: rgb(236, 214, 172);
+.file-icon {
+  font-size: 1.7rem;
+  color: rgb(236, 214, 172);
 }
 
-button.file-btn{
-	padding: .4rem 2rem;
-	cursor: pointer;
-	outline: transparent;
-	border-radius: 4px;
-	border: 1px solid #eee;
+.file-name {
+  display: flex;
+  align-items: center;
 }
 
-.delete-popup-body{
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	padding: 1rem;
-	border: 1px solid #eee;
-	border-radius: 4px;
-	background: #fff;
+button.file-btn {
+  padding: 0.4rem 2rem;
+  cursor: pointer;
+  outline: transparent;
+  border-radius: 4px;
+  border: 1px solid #eee;
 }
 
-.delete-text{
-	text-align: center;
+.delete-popup-body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background: #fff;
 }
 
-.file-btns-div{
-	display: flex;
-	justify-content: center;
-	gap: 10%;
-	margin-left: auto;
+.delete-text {
+  text-align: center;
 }
 
-.delete-btns-div{
-	display: flex;
-	justify-content: center;
-	margin-top: 2rem;
-	gap: 5%;
+.file-btns-div {
+  display: flex;
+  justify-content: center;
+  gap: 10%;
+  margin-left: auto;
 }
 
-button.file-btn.delete{
-	background-color: rgba(235, 52, 52, 0.9);
-	border: solid 2px rgba(224, 49, 49, 0.9);
-	color: white;
+.delete-btns-div {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 5%;
 }
 
-button.file-btn.delete:hover{
-	background-color: rgb(235, 52, 52);
-	box-shadow: 0 5px 8px #eee;
+button.file-btn.delete {
+  background-color: rgba(235, 52, 52, 0.9);
+  border: solid 2px rgba(224, 49, 49, 0.9);
+  font-size: 1rem;
+  color: white;
 }
 
-button.file-btn.cancel{
-	background: transparent;
+button.file-btn.delete:hover {
+  background-color: rgb(235, 52, 52);
+  box-shadow: 0 5px 8px #eee;
 }
 
-button.file-btn.edit{
-	border: solid 2px rgb(238, 237, 237);
+button.file-btn.cancel {
+  font-size: 1rem;
+  background: transparent;
 }
 
-button.file-btn.edit:hover{
-	box-shadow: 0 2px 5px #eee;
+button.file-btn.edit {
+  font-size: 1rem;
+  border: solid 2px rgb(238, 237, 237);
+}
+
+button.file-btn.edit:hover {
+  box-shadow: 0 2px 5px #eee;
+}
+
+@media (max-width: 760px) {
+  .file {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .file-btns-div {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+
+  button.file-btn.delete,
+  button.file-btn.cancel,
+  button.file-btn.edit {
+	font-size: .8rem;
+  }
 }

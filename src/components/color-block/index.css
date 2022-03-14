@@ -8,11 +8,11 @@
   position: relative;
 }
 
-.color-block .add-block-btn{
+.color-block .add-block-btn {
   visibility: hidden;
 }
 
-.color-block:hover .btn-visible{
+.color-block:hover .btn-visible {
   visibility: visible;
 }
 
@@ -48,29 +48,35 @@
 
 .color-block .controls .locked {
   font-size: 1.18rem;
-  transition: font-size .5s;
+  transition: font-size 0.5s;
+}
+
+.color-name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-container {
-  width: 100px;
+  width: 130px;
   margin-top: auto;
 }
 
-.color-name{
+.color-name {
   margin-bottom: 5rem;
-  font-size: .9rem;
+  font-size: 0.9rem;
   text-align: center;
 }
 
-.color-name p{
+.color-name p {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 10rem;
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
   white-space: nowrap;
 }
 
-.loading{
+.loading {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -83,6 +89,42 @@
   background-color: transparent;
 }
 
-.add-block-btn.position-r-1{
+.add-block-btn.position-r-1 {
   right: 1rem;
+}
+
+@media (max-width: 1280px) {
+  .color-block {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .color-name {
+    margin-bottom: 0;
+  }
+
+  .color-block .controls {
+    flex-direction: row;
+    margin: 0 1.5rem;
+  }
+
+  .controls .copy,
+  .controls .cancel,
+  .controls .lock {
+    opacity: 0.3;
+  }
+
+  .color-block:hover .btn-visible {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .color-name {
+    display: none;
+  }
+
+  .color-name-container {
+    margin-right: 1.5rem;
+  }
 }
