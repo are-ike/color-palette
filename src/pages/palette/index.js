@@ -25,7 +25,11 @@ const Palette = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState({
+    isError: false,
+    arguments: {},
+    retryFunction: null,
+  });
   const [redirect, setRedirect] = useState(false);
   const [file, setFile] = useState({
     file_id: "",
@@ -57,7 +61,7 @@ const Palette = () => {
     }
   };
 
-  const handleColorCreationAndUpdate = async (currentColor) => {
+  const handleColorCreationAndUpdate = async (currentColor, onError) => {
     const color = !currentColor
       ? {
           id: uuidv4(),
@@ -67,18 +71,19 @@ const Palette = () => {
       : currentColor;
 
     const colorObject = await getColorInformation(color, {
-      setIsError,
+      setError,
+      onError,
       setIsLoading,
     });
     return colorObject;
   };
 
-  const generateRandomPalette = async (count) => {
+  const generateRandomPalette = async (count, onError) => {
     const colors = [];
 
     for (let i = 0; i < count; i++) {
       if (!file.colors.length || !file.colors[i]?.locked) {
-        const colorObject = await handleColorCreationAndUpdate();
+        const colorObject = await handleColorCreationAndUpdate(null, onError);
         colors.push(colorObject);
       } else {
         colors.push(file.colors[i]);
@@ -90,7 +95,13 @@ const Palette = () => {
 
   async function generateNewFile() {
     const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? [];
-    const colors = await generateRandomPalette(5);
+    const colors = await generateRandomPalette(5, () => {
+      setError({
+        isError: true,
+        arguments: null,
+        retryFunction: generateNewFile,
+      });
+    });
 
     fileList.push({
       file_id: id,
@@ -128,7 +139,13 @@ const Palette = () => {
       async (newFile) => {
         setIsLoading(true);
 
-        const colors = await generateRandomPalette(file.colors?.length);
+        const colors = await generateRandomPalette(file.colors?.length, () => {
+          setError({
+            isError: true,
+            arguments: {keyCode: 32},
+            retryFunction: onNewPalette,
+          });
+        });
         newFile.colors = [...colors];
 
         setIsLoading(false);
@@ -154,7 +171,13 @@ const Palette = () => {
       if (colorNumber < newFile.colors?.length) {
         newFile.colors.pop();
       } else {
-        const colorObject = await handleColorCreationAndUpdate();
+        const colorObject = await handleColorCreationAndUpdate(null, () => {
+          setError({
+            isError: true,
+            arguments: colorNumber,
+            retryFunction: onColorBlockNumberChange,
+          });
+        });
         newFile.colors.push(colorObject);
       }
       setIsLoading(false);
@@ -167,7 +190,14 @@ const Palette = () => {
       if (colorIdx >= 0) {
         newFile.colors[colorIdx].hex = newColor;
         const colorObject = await handleColorCreationAndUpdate(
-          newFile.colors[colorIdx]
+          newFile.colors[colorIdx],
+          () => {
+            setError({
+              isError: true,
+              arguments: { id, newColor },
+              retryFunction: onColorInputChange,
+            });
+          }
         );
         newFile.colors[colorIdx] = { ...colorObject };
       }
@@ -195,7 +225,13 @@ const Palette = () => {
       if (idx < 5) {
         setIsLoading(true);
 
-        const newColor = await handleColorCreationAndUpdate();
+        const newColor = await handleColorCreationAndUpdate(null, () => {
+          setError({
+            isError: true,
+            arguments: id,
+            retryFunction: onColorBlockAdd,
+          });
+        });
         newFile.colors?.splice(idx + 1, 0, newColor);
 
         setIsLoading(false);
@@ -214,6 +250,11 @@ const Palette = () => {
     setShowBackdrop(false);
     toast.dismiss(colorFormatsToastId);
     setColorFormatsToastId("");
+  };
+
+  const onRefresh = () => {
+    setIsLoading(true);
+    error.retryFunction(error.arguments);
   };
 
   /* eslint-disable */
@@ -243,19 +284,23 @@ const Palette = () => {
   /* eslint-enable */
 
   const render = () => {
-    if (isLoading && !file.file_id.length) {
+    if (isLoading && (!file.file_id.length || error.isError)) {
       return <Loader />;
     }
-    if (isError) {
+    if (error.isError) {
       return (
         <div className="full-page">
           <p>
-            An error occured, please <span>refresh</span> the page
+            An error occured, please{" "}
+            <span className="link" onClick={onRefresh}>
+              refresh
+            </span>{" "}
+            the page
           </p>
         </div>
       );
     }
-    if (file.file_id.length && !isError) {
+    if (file.file_id.length && !error.isError) {
       return (
         <div className={isLoading ? "relative" : "overflow-none"}>
           <div>
@@ -282,13 +327,19 @@ const Palette = () => {
                   <div className="undo-redo">
                     <FontAwesomeIcon
                       icon={faArrowLeft}
-                      className={cls(cache.canUndo ? "undo" : "disable-undo", "outline-none")}
+                      className={cls(
+                        cache.canUndo ? "undo" : "disable-undo",
+                        "outline-none"
+                      )}
                       onClick={cache.undo}
                       data-tip="Undo"
                     />
                     <FontAwesomeIcon
                       icon={faArrowRight}
-                      className={cls(cache.canRedo ? "redo" : "disable-redo", "outline-none")}
+                      className={cls(
+                        cache.canRedo ? "redo" : "disable-redo",
+                        "outline-none"
+                      )}
                       onClick={cache.redo}
                       data-tip="Redo"
                     />

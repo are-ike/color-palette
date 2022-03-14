@@ -1,4 +1,4 @@
-const getColorInformation = async (color, { setIsError, setIsLoading }) => {
+const getColorInformation = async (color, { setError, onError, setIsLoading }) => {
   try {
     const response = await fetch(
       `https://www.thecolorapi.com/id?hex=${color?.hex?.slice(1)}`
@@ -11,15 +11,21 @@ const getColorInformation = async (color, { setIsError, setIsLoading }) => {
     newColor.hsv = colorObject.hsv?.value;
     newColor.rgb = colorObject.rgb?.value;
 
-    return newColor;
-  } catch (e) {
-    setIsError(true);
+    setError({
+      isError: false,
+      arguments: [],
+      retryFunction: null,
+    })
+
     setIsLoading(false);
 
-    console.log(e);
+    return newColor;
+  } catch (e) {
+    onError();
+    setIsLoading(false);
+
     return color;
   }
-  // console.log(colorObject)
 };
 
 export default getColorInformation;

@@ -59,7 +59,6 @@ const ColorBlock = ({
     setCurrentColor(newColor);
     const newColorHex = `#${newColor}`;
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex) && !color.hex.includes(newColorHex) && !newColorHex.includes(color.hex)) {
-      console.log('yh');
       setIsLoading(true);
       onColorInputChange({
         id,

@@ -82,3 +82,10 @@
 .overflow-none{
 	overflow: hidden;
 }
+
+.full-page .link{
+	text-decoration: underline;
+	cursor: pointer;
+	color: rgb(18, 18, 107);
+	font-weight: 500;
+}
