@@ -29,7 +29,7 @@ const useCache = ({ updateFile }) => {
 
       setAction(actionTypes.none);
     }
-  }, [action]);
+  }, [action, pointer, cache, updateFile]);
   //console.log(cache);
   //Add file state to cache
   const addToCache = (file) => {
