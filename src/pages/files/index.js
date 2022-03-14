@@ -42,7 +42,7 @@ const ListOfFiles = () => {
     localStorage.setItem(fileKey, JSON.stringify(newFiles));
     getFiles();
     hideBackdrop();
-    toast.success("Palette deleted", { autoClose: 1500 });
+    setTimeout(() => toast.success("Palette deleted", { autoClose: 1500 }), 200)
   };
 
   useEffect(() => {

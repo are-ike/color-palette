@@ -99,6 +99,7 @@ const ColorBlock = ({
           icon={faCopy}
           className="icon copy outline-none"
           data-tip="Copy code"
+          data-for={id}
           onClick={handleCopy}
         />
         <FontAwesomeIcon
@@ -137,7 +138,7 @@ const ColorBlock = ({
       {isLoading && (
         <Loader isFullpage={false} classNames="loading" color={iconColor} />
       )}
-      <ReactTooltip effect="solid" delayShow={100} />
+      <ReactTooltip effect="solid" delayShow={100} id={id}/>
     </div>
   );
 };

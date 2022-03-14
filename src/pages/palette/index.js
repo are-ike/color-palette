@@ -20,6 +20,8 @@ import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 import "./index.css";
 
+const DEFAULT_BLOCK_NUMBER = 7
+
 const Palette = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -95,7 +97,7 @@ const Palette = () => {
 
   async function generateNewFile() {
     const fileList = JSON.parse(localStorage.getItem(fileKey)) ?? [];
-    const colors = await generateRandomPalette(5, () => {
+    const colors = await generateRandomPalette(DEFAULT_BLOCK_NUMBER, () => {
       setError({
         isError: true,
         arguments: null,
@@ -222,7 +224,7 @@ const Palette = () => {
   const onColorBlockAdd = (id) => {
     updateFile(async (newFile) => {
       const idx = newFile.colors?.findIndex((color) => color.id === id);
-      if (idx < 5) {
+      if (idx < DEFAULT_BLOCK_NUMBER) {
         setIsLoading(true);
 
         const newColor = await handleColorCreationAndUpdate(null, () => {
@@ -359,7 +361,7 @@ const Palette = () => {
                 <ColorBlock
                   key={color.id}
                   color={color}
-                  canAddNewBlock={file.colors?.length < 5 ? true : false}
+                  canAddNewBlock={file.colors?.length < DEFAULT_BLOCK_NUMBER ? true : false}
                   isLastBlock={idx === file.colors?.length - 1 ? true : false}
                   onColorInputChange={onColorInputChange}
                   onColorBlockDelete={onColorBlockDelete}
