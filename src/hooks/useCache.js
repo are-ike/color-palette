@@ -15,6 +15,7 @@ const useCache = ({ updateFile }) => {
   const canUndo = cache.length && pointer - 1 > -1;
   const canRedo = cache.length && pointer + 1 < cache.length;
 
+  /* eslint-disable */
   useEffect(() => {
     if (Number.isInteger(pointer) && action !== actionTypes.none) {
       updateFile(
@@ -29,7 +30,7 @@ const useCache = ({ updateFile }) => {
 
       setAction(actionTypes.none);
     }
-  }, [action, pointer, cache, updateFile]);
+  }, [action, pointer, cache]);
   //console.log(cache);
   //Add file state to cache
   const addToCache = (file) => {
