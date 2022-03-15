@@ -32,13 +32,4 @@
   cursor: default;
 }
 
-.number-input {
-  width: 2rem;
-  border: solid 1px #c7c2c2;
-  outline: none;
-  padding: 0.2rem;
-  border-radius: 3px;
-  color: transparent;
-  text-shadow: 0 0 0 #000000;
-  font-size: 1rem;
-}
+

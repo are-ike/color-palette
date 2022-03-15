@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Input from "../../components/input/index";
+import Counter from "../../components/color-block-counter";
 import ColorBlock from "../../components/color-block/index";
 import {
   faFolderOpen,
@@ -40,7 +41,7 @@ const Palette = () => {
   });
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
-  const [screenSize, setScreenSize] = useState(window.innerWidth)
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   const cache = useCache({ updateFile });
 
@@ -159,7 +160,8 @@ const Palette = () => {
         !e.target?.classList?.contains("file-name-input") &&
         !e.target?.classList?.contains("color-input") &&
         !e.target?.classList?.contains("number-input") &&
-        !isLoading) || (screenSize <= 1280)
+        !isLoading) ||
+        screenSize <= 1280
     );
   };
 
@@ -262,8 +264,8 @@ const Palette = () => {
   };
 
   const handleScreenResize = () => {
-    setScreenSize(window.innerWidth)
-  }
+    setScreenSize(window.innerWidth);
+  };
 
   /* eslint-disable */
   useEffect(() => {
@@ -278,11 +280,18 @@ const Palette = () => {
   }, [file.file_id]);
 
   useEffect(() => {
-    document.addEventListener("keyup", onNewPalette);
-    window.addEventListener("resize", handleScreenResize)
+    if (screenSize > 1280) {
+      document.addEventListener("keyup", onNewPalette);
+    }
     return () => {
       document.removeEventListener("keyup", onNewPalette);
-      window.removeEventListener("resize", handleScreenResize)
+    };
+  }, [screenSize]);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleScreenResize);
+    return () => {
+      window.removeEventListener("resize", handleScreenResize);
     };
   }, []);
 
@@ -326,13 +335,14 @@ const Palette = () => {
                 {screenSize > 1280 ? (
                   <p>Press the spacebar to generate a random palette!</p>
                 ) : (
-                  <button className="generate-palette" onClick={onNewPalette}>Generate</button>
+                  <button className="generate-palette" onClick={onNewPalette}>
+                    Generate
+                  </button>
                 )}
                 <div className="header-row-segment">
                   <div className="color-block-input">
                     <span>Color blocks:</span>
-                    <Input
-                      type="number"
+                    <Counter
                       value={file.colors?.length}
                       disabled={isLoading}
                       setValue={onColorBlockNumberChange}
