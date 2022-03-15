@@ -62,7 +62,7 @@
 
 .color-blocks {
   display: flex;
-  height: calc(100vh - 111px);
+  height: 100%;
   overflow: hidden;
 }
 
@@ -86,6 +86,10 @@
 
 .visibility-none {
   visibility: hidden;
+}
+
+.h-full{
+  height: 100vh;
 }
 
 .full-page .link {

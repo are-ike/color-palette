@@ -30,14 +30,14 @@ const Counter = ({ value, setValue, disabled }) => {
 
   const add = () => {
     if (canAdd) {
-      return setValue((value) => value + 1);
+      return setValue(value + 1);
     }
     showToast();
   };
 
   const minus = () => {
     if (canMinus) {
-      return setValue((value) => value - 1);
+      return setValue(value - 1);
     }
     showToast();
   };
@@ -48,7 +48,7 @@ const Counter = ({ value, setValue, disabled }) => {
         icon={faMinus}
         onClick={minus}
         data-tip='Reduce'
-        className={cls("counter-minus", 
+        className={cls("counter-minus outline-none", 
           !canMinus ||
           disabled ? "counter-minus-disabled" : null
         )}
@@ -58,7 +58,7 @@ const Counter = ({ value, setValue, disabled }) => {
         icon={faPlus}
         onClick={add}
         data-tip='Add'
-        className={cls("counter-add",
+        className={cls("counter-add outline-none",
           !canAdd ||
           disabled ? "counter-add-disabled" : null
         )}

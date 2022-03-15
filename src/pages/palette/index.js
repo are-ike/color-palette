@@ -321,8 +321,7 @@ const Palette = () => {
     }
     if (file.file_id.length && !error.isError) {
       return (
-        <div className={isLoading ? "relative" : "overflow-none"}>
-          <div>
+        <div className={cls( "h-full overflow-none", isLoading ? "relative" : null)}>
             <header>
               <div className="header-row header-row-one">
                 <FontAwesomeIcon
@@ -396,7 +395,7 @@ const Palette = () => {
                 />
               ))}
             </main>
-          </div>
+
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
           <ReactTooltip effect="solid" delayShow={100} />
         </div>
