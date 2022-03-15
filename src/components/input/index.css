@@ -32,4 +32,9 @@
   cursor: default;
 }
 
+@media (max-width: 450px) {
+  .file-name-input{
+    font-size: 1.6rem;
+  }
+}
 

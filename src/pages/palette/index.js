@@ -321,7 +321,7 @@ const Palette = () => {
     }
     if (file.file_id.length && !error.isError) {
       return (
-        <div className={cls( "h-full overflow-none", isLoading ? "relative" : null)}>
+        <div className={cls( "h-full overflow-none palette", isLoading ? "relative" : null)}>
             <header>
               <div className="header-row header-row-one">
                 <FontAwesomeIcon
@@ -339,8 +339,8 @@ const Palette = () => {
                   </button>
                 )}
                 <div className="header-row-segment">
-                  <div className="color-block-input">
-                    <span>Color blocks:</span>
+                  <div className="color-block-counter">
+                    <span className="color-blocks-text">Color blocks:</span>
                     <Counter
                       value={file.colors?.length}
                       disabled={isLoading}
