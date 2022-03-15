@@ -1,37 +1,45 @@
-.accordion{
-	position: relative;
-	font-family: inherit;
+.accordion {
+  position: relative;
+  font-family: inherit;
 }
 
-.title{
-	padding: .2rem 0;
-	height: 3.12rem;
-	border-bottom: 1px solid #e6e6e6;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.title {
+  padding: 0.2rem 0;
+  height: 3.12rem;
+  border-bottom: 1px solid #e6e6e6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.title:hover{
-	font-size: 1.05rem;
-	font-weight: 500;
+.title:hover {
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 
-.icon{
-	font-size: 1rem;
-	color: #d4d3d3;
+.icon {
+  font-size: 1rem;
+  color: #d4d3d3;
 }
 
-.content{
-	height: 0;
-	overflow: hidden;
-	transition: .5s;
+.content {
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s;
 }
 
-
-.content.show{
-	height: 3.12rem;
-	color: black;
+.content.show {
+  height: 3.12rem;
+  color: black;
 }
 
+@media (max-width: 760px) {
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .title:hover {
+    font-size: 1.45rem;
+  }
+}

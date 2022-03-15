@@ -26,7 +26,7 @@ const ColorBlock = ({
   setColorFormatsToastId,
   canAddNewBlock,
   isLastBlock,
-  isLargeScreen
+  isLargeScreen,
 }) => {
   const [currentColor, setCurrentColor] = useState(color.hex?.slice(1));
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +59,11 @@ const ColorBlock = ({
   const handleColorChange = (newColor) => {
     setCurrentColor(newColor);
     const newColorHex = `#${newColor}`;
-    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex) && !color.hex.includes(newColorHex) && !newColorHex.includes(color.hex)) {
+    if (
+      /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColorHex) &&
+      !color.hex.includes(newColorHex) &&
+      !newColorHex.includes(color.hex)
+    ) {
       setIsLoading(true);
       onColorInputChange({
         id,
@@ -69,14 +73,17 @@ const ColorBlock = ({
   };
 
   const handleCopy = () => {
-    const toastId = toast(<ColorFormats color={color} isLargeScreen={isLargeScreen}/>, {
-      position: toast.POSITION.BOTTOM_CENTER,
-      autoClose: false,
-      closeOnClick: false,
-      style: {
-        cursor: "default",
-      },
-    });
+    const toastId = toast(
+      <ColorFormats color={color} isLargeScreen={isLargeScreen} />,
+      {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: false,
+        closeOnClick: false,
+        style: {
+          cursor: "default",
+        },
+      }
+    );
     setColorFormatsToastId(toastId);
   };
 
@@ -141,7 +148,7 @@ const ColorBlock = ({
       {isLoading && (
         <Loader isFullpage={false} classNames="loading" color={iconColor} />
       )}
-      <ReactTooltip effect="solid" delayShow={100} id={id}/>
+      <ReactTooltip effect="solid" delayShow={100} id={id} />
     </div>
   );
 };

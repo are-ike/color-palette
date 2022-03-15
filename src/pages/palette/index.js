@@ -21,13 +21,13 @@ import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 import "./index.css";
 
-const BREAKPOINT = 1280 
+const BREAKPOINT = 1280;
 const DEFAULT_BLOCK_NUMBER = 7;
 
 const Palette = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState({
     isError: false,
@@ -43,8 +43,8 @@ const Palette = () => {
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
   const [screenSize, setScreenSize] = useState(window.innerWidth);
-  const largeScreen = screenSize > BREAKPOINT
-  
+  const largeScreen = screenSize > BREAKPOINT;
+
   const cache = useCache({ updateFile });
 
   const handleRedirect = () => {
@@ -323,83 +323,85 @@ const Palette = () => {
     }
     if (file.file_id.length && !error.isError) {
       return (
-        <div className={cls( "h-full overflow-none palette", isLoading ? "relative" : null)}>
-            <header>
-              <div className="header-row header-row-one">
-                <FontAwesomeIcon
-                  icon={faFolderOpen}
-                  className="file-open-icon"
-                />
-                <Input value={file.file_name} setValue={onFileNameChange} />
-              </div>
-              <div className="header-row header-row-two">
-                {screenSize > BREAKPOINT ? (
-                  <p>Press the spacebar to generate a random palette!</p>
-                ) : (
-                  <button className="generate-palette" onClick={onNewPalette}>
-                    Generate
-                  </button>
-                )}
-                <div className="header-row-segment">
-                  <div className="color-block-counter">
-                    <span className="color-blocks-text">Color blocks:</span>
-                    <Counter
-                      value={file.colors?.length}
-                      maxValue={DEFAULT_BLOCK_NUMBER}
-                      disabled={isLoading}
-                      setValue={onColorBlockNumberChange}
-                      isLargeScreen={largeScreen}
-                    />
-                  </div>
-                  <div className="undo-redo">
-                    <FontAwesomeIcon
-                      icon={faArrowLeft}
-                      className={cls(
-                        cache.canUndo ? "undo" : "disable-undo",
-                        "outline-none"
-                      )}
-                      onClick={cache.undo}
-                      data-tip={largeScreen ? "Undo" : null}
-                    />
-                    <FontAwesomeIcon
-                      icon={faArrowRight}
-                      className={cls(
-                        cache.canRedo ? "redo" : "disable-redo",
-                        "outline-none"
-                      )}
-                      onClick={cache.redo}
-                      data-tip={largeScreen ? "Redo" : null}
-                    />
-                  </div>
-                  <Link to="/files">
-                    <FontAwesomeIcon
-                      icon={faBars}
-                      className="list-icon outline-none"
-                      data-tip={largeScreen ? "Palettes" : null}
-                    />
-                  </Link>
+        <div
+          className={cls(
+            "h-full overflow-none palette",
+            isLoading ? "relative" : null
+          )}
+        >
+          <header>
+            <div className="header-row header-row-one">
+              <FontAwesomeIcon icon={faFolderOpen} className="file-open-icon" />
+              <Input value={file.file_name} setValue={onFileNameChange} />
+            </div>
+            <div className="header-row header-row-two">
+              {screenSize > BREAKPOINT ? (
+                <p>Press the spacebar to generate a random palette!</p>
+              ) : (
+                <button className="generate-palette" onClick={onNewPalette}>
+                  Generate
+                </button>
+              )}
+              <div className="header-row-segment">
+                <div className="color-block-counter">
+                  <span className="color-blocks-text">Color blocks:</span>
+                  <Counter
+                    value={file.colors?.length}
+                    maxValue={DEFAULT_BLOCK_NUMBER}
+                    disabled={isLoading}
+                    setValue={onColorBlockNumberChange}
+                    isLargeScreen={largeScreen}
+                  />
                 </div>
+                <div className="undo-redo">
+                  <FontAwesomeIcon
+                    icon={faArrowLeft}
+                    className={cls(
+                      cache.canUndo ? "undo" : "disable-undo",
+                      "outline-none"
+                    )}
+                    onClick={cache.undo}
+                    data-tip={largeScreen ? "Undo" : null}
+                  />
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className={cls(
+                      cache.canRedo ? "redo" : "disable-redo",
+                      "outline-none"
+                    )}
+                    onClick={cache.redo}
+                    data-tip={largeScreen ? "Redo" : null}
+                  />
+                </div>
+                <Link to="/files">
+                  <FontAwesomeIcon
+                    icon={faBars}
+                    className="list-icon outline-none"
+                    data-tip={largeScreen ? "Palettes" : null}
+                  />
+                </Link>
               </div>
-            </header>
-            <main className="color-blocks">
-              {file.colors?.map((color, idx) => (
-                <ColorBlock
-                  key={color.id}
-                  color={color}
-                  canAddNewBlock={
-                    file.colors?.length < DEFAULT_BLOCK_NUMBER ? true : false
-                  }
-                  isLastBlock={idx === file.colors?.length - 1 ? true : false}
-                  onColorInputChange={onColorInputChange}
-                  onColorBlockDelete={onColorBlockDelete}
-                  onColorBlockLock={onColorBlockLock}
-                  onColorBlockAdd={onColorBlockAdd}
-                  setColorFormatsToastId={setColorFormatsToastId}
-                  colorFormatsToastId={colorFormatsToastId}
-                  isLargeScreen={largeScreen}
-                />
-              ))}
-            </main>
+            </div>
+          </header>
+          <main className="color-blocks">
+            {file.colors?.map((color, idx) => (
+              <ColorBlock
+                key={color.id}
+                color={color}
+                canAddNewBlock={
+                  file.colors?.length < DEFAULT_BLOCK_NUMBER ? true : false
+                }
+                isLastBlock={idx === file.colors?.length - 1 ? true : false}
+                onColorInputChange={onColorInputChange}
+                onColorBlockDelete={onColorBlockDelete}
+                onColorBlockLock={onColorBlockLock}
+                onColorBlockAdd={onColorBlockAdd}
+                setColorFormatsToastId={setColorFormatsToastId}
+                colorFormatsToastId={colorFormatsToastId}
+                isLargeScreen={largeScreen}
+              />
+            ))}
+          </main>
 
           {isLoading && <Loader classNames="absolute-loader" color="#ffffff" />}
           <ReactTooltip effect="solid" delayShow={100} />

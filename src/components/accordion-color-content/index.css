@@ -1,15 +1,22 @@
-.color-content{
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.color-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.color-content .icon{
-	cursor: pointer;
-	font-size: .8rem;
-	color: #d4d3d3;
+.color-content .icon {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #d4d3d3;
 }
 
-.color-content .icon:hover{
-	color:#b9b9b9
+.color-content .icon:hover {
+  color: #b9b9b9;
+}
+
+@media (max-width: 760px) {
+  .color-content,
+  .color-content .icon {
+    font-size: 1.4rem;
+  }
 }

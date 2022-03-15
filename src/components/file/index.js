@@ -32,6 +32,7 @@ const File = ({ id, fileName, onDelete, setDeleteToastId, onCancel }) => {
         </div>
       </div>,
       {
+        toastId: 'delete-toast',
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
         closeOnClick: false,

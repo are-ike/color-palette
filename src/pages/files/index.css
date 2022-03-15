@@ -42,4 +42,8 @@ header .icon {
   .file-list {
     padding: 0.2rem 0;
   }
+
+  .header h4 {
+    font-size: 1.8rem;
+  }
 }

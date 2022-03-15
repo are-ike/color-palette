@@ -127,4 +127,14 @@
   .color-name-container {
     margin-right: 1.5rem;
   }
+
+  .color-block .controls .copy,
+  .color-block .controls .cancel,
+  .color-block .controls .lock {
+    font-size: 1.2rem;
+  }
+
+  .color-block .controls .locked {
+    font-size: 1.28rem;
+  }
 }

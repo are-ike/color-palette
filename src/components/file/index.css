@@ -96,6 +96,14 @@ button.file-btn.edit:hover {
     align-items: flex-start;
   }
 
+  .file-link{
+    font-size: 1.3rem;
+  }
+
+  .file-icon {
+    font-size: 2rem;
+  }
+
   .file-btns-div {
     margin-left: 0;
     margin-top: 2rem;
@@ -104,6 +112,6 @@ button.file-btn.edit:hover {
   button.file-btn.delete,
   button.file-btn.cancel,
   button.file-btn.edit {
-	font-size: .8rem;
+	font-size: 1rem;
   }
 }

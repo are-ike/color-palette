@@ -38,6 +38,7 @@ body {
 @media (max-width: 760px) {
   .Toastify__toast-container {
     width: 400px !important;
+    font-size: 1.4rem;
   }
 }
 
