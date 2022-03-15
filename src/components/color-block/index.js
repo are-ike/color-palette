@@ -26,6 +26,7 @@ const ColorBlock = ({
   setColorFormatsToastId,
   canAddNewBlock,
   isLastBlock,
+  isLargeScreen
 }) => {
   const [currentColor, setCurrentColor] = useState(color.hex?.slice(1));
   const [isLoading, setIsLoading] = useState(false);
@@ -68,7 +69,7 @@ const ColorBlock = ({
   };
 
   const handleCopy = () => {
-    const toastId = toast(<ColorFormats color={color} />, {
+    const toastId = toast(<ColorFormats color={color} isLargeScreen={isLargeScreen}/>, {
       position: toast.POSITION.BOTTOM_CENTER,
       autoClose: false,
       closeOnClick: false,
@@ -91,14 +92,14 @@ const ColorBlock = ({
           style={{ color: iconColor }}
           icon={faTimes}
           className="icon cancel outline-none"
-          data-tip="Remove color"
+          data-tip={isLargeScreen ? "Remove color" : null}
           onClick={() => onColorBlockDelete(id)}
         />
         <FontAwesomeIcon
           style={{ color: iconColor }}
           icon={faCopy}
           className="icon copy outline-none"
-          data-tip="Copy code"
+          data-tip={isLargeScreen ? "Copy code" : null}
           data-for={id}
           onClick={handleCopy}
         />
@@ -109,7 +110,7 @@ const ColorBlock = ({
             "outline-none icon lock",
             color.locked ? "locked" : null
           )}
-          data-tip="Toggle lock"
+          data-tip={isLargeScreen ? "Toggle lock" : null}
           onClick={() => onColorBlockLock(id, !color.locked)}
         />
       </div>

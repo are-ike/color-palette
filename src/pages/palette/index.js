@@ -348,6 +348,7 @@ const Palette = () => {
                       maxValue={DEFAULT_BLOCK_NUMBER}
                       disabled={isLoading}
                       setValue={onColorBlockNumberChange}
+                      isLargeScreen={largeScreen}
                     />
                   </div>
                   <div className="undo-redo">
@@ -395,6 +396,7 @@ const Palette = () => {
                   onColorBlockAdd={onColorBlockAdd}
                   setColorFormatsToastId={setColorFormatsToastId}
                   colorFormatsToastId={colorFormatsToastId}
+                  isLargeScreen={largeScreen}
                 />
               ))}
             </main>

@@ -4,7 +4,7 @@ import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactTooltip from "react-tooltip";
 
-const AccordionColorContent = ({ color }) => {
+const AccordionColorContent = ({ color, isLargeScreen }) => {
   const onCopy = async () => {
     await navigator.clipboard.writeText(color);
     toast("Copied!", {
@@ -23,7 +23,7 @@ const AccordionColorContent = ({ color }) => {
         icon={faCopy}
         className="icon outline-none"
         onClick={onCopy}
-        data-tip="Copy"
+        data-tip={isLargeScreen ? "Copy" : null}
       />
       <ReactTooltip
         effect="solid"
