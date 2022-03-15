@@ -7,7 +7,7 @@ import { cls } from "../../util/functions";
 
 const toastOptions = { autoClose: 1300, position: toast.POSITION.TOP_CENTER };
 
-const Counter = ({ value, setValue, disabled, maxValue }) => {
+const Counter = ({ value, setValue, disabled, maxValue, isLargerScreen }) => {
 
   const canAdd = value > 0 && value < maxValue;
   const canMinus = value > 1 && value <= maxValue;
@@ -46,7 +46,7 @@ const Counter = ({ value, setValue, disabled, maxValue }) => {
       <FontAwesomeIcon
         icon={faMinus}
         onClick={minus}
-        data-tip='Reduce'
+        data-tip={isLargerScreen ? 'Reduce' : null}
         className={cls("counter-minus outline-none", 
           !canMinus ||
           disabled ? "counter-minus-disabled" : null
@@ -56,7 +56,7 @@ const Counter = ({ value, setValue, disabled, maxValue }) => {
       <FontAwesomeIcon
         icon={faPlus}
         onClick={add}
-        data-tip='Add'
+        data-tip={isLargerScreen ? 'Add' : null}
         className={cls("counter-add outline-none",
           !canAdd ||
           disabled ? "counter-add-disabled" : null

@@ -112,6 +112,11 @@ button.file-btn.edit:hover {
   button.file-btn.delete,
   button.file-btn.cancel,
   button.file-btn.edit {
-	font-size: 1rem;
+	font-size: 1.2rem;
   }
+
+  .delete-text{
+    font-size: 1.7rem;
+  }
+
 }
