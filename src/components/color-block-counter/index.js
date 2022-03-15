@@ -5,13 +5,12 @@ import { toast } from "react-toastify";
 import ReactTooltip from "react-tooltip";
 import { cls } from "../../util/functions";
 
-const DEFAULT_BLOCK_NUMBER = 7;
 const toastOptions = { autoClose: 1300, position: toast.POSITION.TOP_CENTER };
 
-const Counter = ({ value, setValue, disabled }) => {
+const Counter = ({ value, setValue, disabled, maxValue }) => {
 
-  const canAdd = value > 0 && value < DEFAULT_BLOCK_NUMBER;
-  const canMinus = value > 1 && value <= DEFAULT_BLOCK_NUMBER;
+  const canAdd = value > 0 && value < maxValue;
+  const canMinus = value > 1 && value <= maxValue;
 
   const showToast = () => {
     if (!canMinus) {

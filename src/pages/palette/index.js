@@ -21,12 +21,13 @@ import ReactTooltip from "react-tooltip";
 import { toast } from "react-toastify";
 import "./index.css";
 
+const BREAKPOINT = 1280 
 const DEFAULT_BLOCK_NUMBER = 7;
 
 const Palette = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState({
     isError: false,
@@ -42,7 +43,8 @@ const Palette = () => {
   const [colorFormatsToastId, setColorFormatsToastId] = useState("");
   const [showBackdrop, setShowBackdrop] = useState(false);
   const [screenSize, setScreenSize] = useState(window.innerWidth);
-
+  const largeScreen = screenSize > BREAKPOINT
+  
   const cache = useCache({ updateFile });
 
   const handleRedirect = () => {
@@ -161,7 +163,7 @@ const Palette = () => {
         !e.target?.classList?.contains("color-input") &&
         !e.target?.classList?.contains("number-input") &&
         !isLoading) ||
-        screenSize <= 1280
+        screenSize <= BREAKPOINT
     );
   };
 
@@ -280,7 +282,7 @@ const Palette = () => {
   }, [file.file_id]);
 
   useEffect(() => {
-    if (screenSize > 1280) {
+    if (screenSize > BREAKPOINT) {
       document.addEventListener("keyup", onNewPalette);
     }
     return () => {
@@ -331,7 +333,7 @@ const Palette = () => {
                 <Input value={file.file_name} setValue={onFileNameChange} />
               </div>
               <div className="header-row header-row-two">
-                {screenSize > 1280 ? (
+                {screenSize > BREAKPOINT ? (
                   <p>Press the spacebar to generate a random palette!</p>
                 ) : (
                   <button className="generate-palette" onClick={onNewPalette}>
@@ -343,6 +345,7 @@ const Palette = () => {
                     <span className="color-blocks-text">Color blocks:</span>
                     <Counter
                       value={file.colors?.length}
+                      maxValue={DEFAULT_BLOCK_NUMBER}
                       disabled={isLoading}
                       setValue={onColorBlockNumberChange}
                     />
@@ -355,7 +358,7 @@ const Palette = () => {
                         "outline-none"
                       )}
                       onClick={cache.undo}
-                      data-tip="Undo"
+                      data-tip={largeScreen ? "Undo" : null}
                     />
                     <FontAwesomeIcon
                       icon={faArrowRight}
@@ -364,14 +367,14 @@ const Palette = () => {
                         "outline-none"
                       )}
                       onClick={cache.redo}
-                      data-tip="Redo"
+                      data-tip={largeScreen ? "Redo" : null}
                     />
                   </div>
                   <Link to="/files">
                     <FontAwesomeIcon
                       icon={faBars}
                       className="list-icon outline-none"
-                      data-tip="Palettes"
+                      data-tip={largeScreen ? "Palettes" : null}
                     />
                   </Link>
                 </div>
